@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from 'next/image'
 
 export const metadata: Metadata= {
   title: "درباره ما"
@@ -16,7 +17,7 @@ const About= () =>{
             </span>
             <h2 className="text-3xl sm:text-4xl text-blue-900 font-semibold">PLAY<span className="text-yellow-700">MEDA</span></h2>
           </div>
-          <img src="./icon/logo.png" alt="Logo" className="size-32 bg-red-800 rounded-full"/>
+          <Image src="/icon/logo.png" alt='Logo' width={128} height={128} className="size-32 bg-red-800 rounded-full"/>
         </div>
         <ul className="flex flex-col gap-y-10 text-lg font-light">
           <li>فروشگاه آنلاین پلی مدا، یک فروشگاه تخصصی در حوزه بازی‌های رایانه‌ای است که از سال ۹۵ کار خود را با هدف ارائه‌ی خدمات اعم از فروش و مشاوره تخصصی کالاهای گیم آغاز کرد. شما می‌توانید در این فروشگاه بهترین کالاهای گیمینگ از برندهای معتبر را با بهترین کیفیت دریافت کنید و یا از طریق تماس با کارشناسان فروشگاه پلی مدا، که خود گیمرهای توانمند کشور هستند، سوالات و مشکلات خود در میان بگذارید.</li>

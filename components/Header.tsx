@@ -1,6 +1,7 @@
 import { CiSearch } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
 import { BiSolidPhoneCall } from "react-icons/bi";
+import Image from 'next/image'
 
 export default function Header() {
     return (
@@ -21,7 +22,7 @@ export default function Header() {
             <hr className="hidden sm:block"/>
             <div className="flex justify-between items-center">
                 <span className="flex items-center gap-x-2">
-                    <img src="./icon/logo.png"/>
+                    <Image src="/icon/logo.png" alt='Logo' width={72} height={72}/>
                     <h1 className="text-2xl text-blue-900 font-semibold hidden sm:block">PLAY<span className="text-yellow-700">MEDA</span></h1>
                 </span>
                 <div className="lg:flex items-center relative hidden">

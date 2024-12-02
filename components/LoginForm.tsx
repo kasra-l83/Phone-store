@@ -5,12 +5,14 @@ import { Input } from "./Input"
 import { authSchema, authSchemaType } from "../validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export const LoginForm: React.FC= () =>{
     const {control, handleSubmit, reset}= useForm<authSchemaType>({
         resolver: zodResolver(authSchema),
         mode:"onSubmit"
     })
+    const { push } = useRouter();
     
     const submit= async (data: authSchemaType) =>{
         const response = await fetch('http://localhost:8000/api/auth/login', {
@@ -24,6 +26,9 @@ export const LoginForm: React.FC= () =>{
             localStorage.setItem('token', result.token.accessToken);
             toast.success("ورود موفق")
             reset();
+            setTimeout(() =>{
+                push("/orders");
+            }, 3000);
         } else {
             toast.error("ورود ناموفق")
         }
