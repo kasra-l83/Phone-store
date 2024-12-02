@@ -36,7 +36,7 @@ export const MassegeForm: React.FC= () =>{
                 )}/>
             </span>
             <label htmlFor="متن" className="text-lg font-light">متن پیام</label>
-            <textarea id="متن" rows={3} cols={57} className= "border rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
+            <textarea id="متن" rows={3} cols={46} className= "border rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
             <button type="submit" className="bg-blue-500 flex items-center gap-x-2 text-white hover:bg-blue-700 rounded-lg text-2xl font-bold py-1 px-8">ارسال<RiSendPlaneFill /></button>
         </form>
     )
