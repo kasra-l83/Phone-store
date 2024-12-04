@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import { ToastifyProvider } from "@/provider/toastify.provider";
+import { TanstackProvider } from "@/provider/tanstak.provider";
 
 export const metadata: Metadata = {
   title: "پلی مدا",
@@ -13,8 +14,10 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
     <html lang="fa" dir="rtl">
       <body className="antialiased max-w-[1600px] mx-auto px-5">
         <ToastifyProvider>
-          <Header/>
-          {children}
+          <TanstackProvider>
+            <Header/>
+            {children}
+          </TanstackProvider>
         </ToastifyProvider>
       </body>
     </html>
