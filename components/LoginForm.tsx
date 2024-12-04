@@ -22,7 +22,6 @@ export const LoginForm: React.FC= () =>{
         })
         if (response.ok) {
             const result = await response.json();
-            console.log(result);
             localStorage.setItem('token', result.token.accessToken);
             toast.success("ورود موفق")
             reset();
@@ -30,7 +29,7 @@ export const LoginForm: React.FC= () =>{
                 push("/orders");
             }, 3000);
         } else {
-            toast.error("ورود ناموفق")
+            toast.error("نام کاربری یا رمز عبور نامعتبر")
         }
     }
     

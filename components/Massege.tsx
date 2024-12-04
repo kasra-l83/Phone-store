@@ -28,7 +28,7 @@ export const MassegeForm: React.FC= () =>{
                 )}/>
             </span>
             <span className="flex w-full justify-around gap-x-2">
-                <Controller defaultValue="" name="phoneNumber" control={control} render={({ field, fieldState }) =>(
+                <Controller name="phoneNumber" control={control} render={({ field, fieldState }) =>(
                     <Input label="تلفن تماس" {...field} error={fieldState.error?.message}/>
                 )}/>
                 <Controller defaultValue="" name="email" control={control} render={({ field, fieldState }) =>(

@@ -2,6 +2,7 @@ import { CiSearch } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
 import { BiSolidPhoneCall } from "react-icons/bi";
 import Image from 'next/image'
+import { Button } from "./button";
 
 export default function Header() {
     return (
@@ -30,7 +31,7 @@ export default function Header() {
                     <CiSearch className="text-xl absolute left-3"/>
                 </div>
                 <span className="flex gap-x-5">
-                    <button className="text-blue-500 w-40 py-[10px] bg-gray-100 rounded-lg hover:bg-gray-300">ورود یا ثبت نام</button>
+                    <Button/>
                     <button className="text-xl text-blue-500 p-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 relative"><IoCartOutline/><div className="bg-blue-500 text-white absolute right-[-10px] top-[-10px] rounded-full size-6 flex justify-center items-center">0</div></button>
                 </span>
             </div>
