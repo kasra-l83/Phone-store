@@ -6,6 +6,8 @@ import { format } from "date-fns-jalali";
 export default function Orders() {
     const [orders, setOrders] = useState<any>([]);
     const [users, setUsers] = useState<any>([]);
+    const [page, setPage]= useState<number>(1);
+    const [pages, setPages]= useState<number>(0);
     const session= localStorage.getItem("token")
     const { push } = useRouter();
     if(!session){
@@ -13,9 +15,10 @@ export default function Orders() {
     }
     useEffect(() => {
         const fetchOrders = async () => {
-            const response = await fetch('http://localhost:8000/api/orders');
+            const response = await fetch(`http://localhost:8000/api/orders?page=${page}&limit=3`);
             const data = await response.json();
             setOrders(data.data.orders);
+            setPages(data.total_pages)
             console.log(data.data.orders);
         }
         const fetchUsers = async () => {
@@ -31,14 +34,30 @@ export default function Orders() {
 
         fetchUsers()
         fetchOrders();
-    }, []);
+    }, [page]);
     const getUserNameById = (userId: string) => {
         const user = users.find(user => user._id === userId);
         return user ? `${user.firstname} ${user.lastname}` : '';
     }
+    const next= () =>{
+        if(page< pages){
+            setPage(page + 1)
+        }
+    }
+    const before= () =>{
+        if(page> 1){
+            setPage(page - 1)
+        }
+    }
     return (
         <>
-            <h1 className="font-semibold text-3xl sm:text-4xl mb-5">مدیریت سفارش ها</h1>
+            <div className="flex justify-between items-center">
+                <h1 className="font-semibold text-3xl sm:text-4xl mb-5">مدیریت سفارش ها</h1>
+                <span className="flex gap-x-2">
+                    <button onClick={() => before()} className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded">قبلی</button>
+                    <button onClick={() => next()} className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded">بعدی</button>
+                </span>
+            </div>
             <table className="text-right max-w-[1000px] w-full mx-auto border-2 border-black">
                 <thead className="bg-gray-400 text-white">
                     <tr>

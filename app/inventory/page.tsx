@@ -1,27 +1,31 @@
 "use client"
+
+import { IProduct } from "@/types/product";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from 'react';
 
-export default function Orders() {
-    const [products, setProducts] = useState([]);
+export default function Inventory() {
+    const [products, setProducts] = useState<IProduct[]>([]);
     const [page, setPage]= useState<number>(1);
-    const [pages, setPages]= useState<number>(0);
+    const [pages, setPages]= useState<number>(1);
     const session= localStorage.getItem("token")
     const { push } = useRouter();
+
     if(!session){
         push("/")
     }
+
     useEffect(() => {
-        const fetchOrders = async () => {
+        const fetchInventory = async () => {
             const response = await fetch(`http://localhost:8000/api/products?page=${page}&limit=3`);
             const data = await response.json();
             setProducts(data.data.products);
             setPages(data.total_pages)
-            console.log(data);
         }
 
-        fetchOrders();
+        fetchInventory();
     }, [page]);
+
     const next= () =>{
         if(page< pages){
             setPage(page + 1)
@@ -32,6 +36,7 @@ export default function Orders() {
             setPage(page - 1)
         }
     }
+
     return (
         <>
             <div className="mb-5 flex justify-between">

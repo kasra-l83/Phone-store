@@ -1,18 +1,24 @@
 "use client"
+
+import { ICategory } from "@/types/category";
+import { IProduct } from "@/types/product";
+import { ISubCategory } from "@/types/subCategory";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from 'react';
 
 export default function Orders() {
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState<IProduct[]>([]);
     const [page, setPage]= useState<number>(1);
-    const [pages, setPages]= useState<number>(0);
-    const [categories, setCategories] = useState([]);
-    const [subCategories, setSubCategories] = useState([]);
+    const [pages, setPages]= useState<number>(1);
+    const [categories, setCategories] = useState<ICategory[]>([]);
+    const [subCategories, setSubCategories] = useState<ISubCategory[]>([]);
     const session= localStorage.getItem("token")
     const { push } = useRouter();
+
     if(!session){
         push("/")
     }
+
     useEffect(() => {
         const fetchOrders = async () => {
             const response = await fetch(`http://localhost:8000/api/products?page=${page}&limit=3`);
@@ -38,6 +44,7 @@ export default function Orders() {
         fetchCategory();
         fetchSubCategory();
     }, [page]);
+
     const next= () =>{
         if(page< pages){
             setPage(page + 1)
