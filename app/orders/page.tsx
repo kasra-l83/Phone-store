@@ -2,12 +2,14 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from 'react';
 import { format } from "date-fns-jalali";
+import { IOrders } from "@/types/orders";
+import { IUsers } from "@/types/users";
 
 export default function Orders() {
-    const [orders, setOrders] = useState<any>([]);
-    const [users, setUsers] = useState<any>([]);
+    const [orders, setOrders] = useState<IOrders[]>([]);
+    const [users, setUsers] = useState<IUsers[]>([]);
     const [page, setPage]= useState<number>(1);
-    const [pages, setPages]= useState<number>(0);
+    const [pages, setPages]= useState<number>(1);
     const session= localStorage.getItem("token")
     const { push } = useRouter();
     if(!session){
@@ -19,7 +21,6 @@ export default function Orders() {
             const data = await response.json();
             setOrders(data.data.orders);
             setPages(data.total_pages)
-            console.log(data.data.orders);
         }
         const fetchUsers = async () => {
             const response = await fetch('http://localhost:8000/api/users', {
@@ -29,7 +30,6 @@ export default function Orders() {
             });
             const data = await response.json();
             setUsers(data.data.users);
-            console.log(data.data.users);
         }
 
         fetchUsers()
