@@ -2,10 +2,12 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from 'react';
 import { format } from "date-fns-jalali";
+import { IOrders } from "@/types/orders";
+import { IUsers } from "@/types/users";
 
 export default function Orders() {
-    const [orders, setOrders] = useState<any>([]);
-    const [users, setUsers] = useState<any>([]);
+    const [orders, setOrders] = useState<IOrders[]>([]);
+    const [users, setUsers] = useState<IUsers[]>([]);
     const [page, setPage]= useState<number>(1);
     const [pages, setPages]= useState<number>(0);
     const session= localStorage.getItem("token")
@@ -19,7 +21,6 @@ export default function Orders() {
             const data = await response.json();
             setOrders(data.data.orders);
             setPages(data.total_pages)
-            console.log(data.data.orders);
         }
         const fetchUsers = async () => {
             const response = await fetch('http://localhost:8000/api/users', {
@@ -29,7 +30,6 @@ export default function Orders() {
             });
             const data = await response.json();
             setUsers(data.data.users);
-            console.log(data.data.users);
         }
 
         fetchUsers()
@@ -54,8 +54,8 @@ export default function Orders() {
             <div className="flex justify-between items-center">
                 <h1 className="font-semibold text-3xl sm:text-4xl mb-5">مدیریت سفارش ها</h1>
                 <span className="flex gap-x-2">
-                    <button onClick={() => before()} className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded">قبلی</button>
-                    <button onClick={() => next()} className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded">بعدی</button>
+                    <button onClick={() => before()} className={`bg-blue-500 hover:bg-blue-700 text-white p-2 rounded ${page===1 ? "hidden" : ""}`}>قبلی</button>
+                    <button onClick={() => next()} className={`bg-blue-500 hover:bg-blue-700 text-white p-2 rounded ${page===pages ? "hidden" : ""}`}>بعدی</button>
                 </span>
             </div>
             <table className="text-right max-w-[1000px] w-full mx-auto border-2 border-black">
