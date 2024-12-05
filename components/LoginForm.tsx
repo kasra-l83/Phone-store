@@ -36,7 +36,7 @@ export const LoginForm: React.FC= () =>{
     return(
         <form name="login" className='w-full flex flex-col gap-y-5' onSubmit={handleSubmit(submit)}>
             <Controller defaultValue="" name='username' control={control} render={({field, fieldState: {error}}) =>(
-                <Input {...field} error={error?.message} label='آیدی'/>
+                <Input {...field} error={error?.message} label='نام کاربری'/>
             )}/>
             <Controller defaultValue="" name='password' control={control} render={({field, fieldState: {error}}) =>(
                 <Input type="password" {...field} error={error?.message} label='رمز عبور'/>

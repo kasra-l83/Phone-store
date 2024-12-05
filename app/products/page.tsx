@@ -25,19 +25,16 @@ export default function Orders() {
             const data = await response.json();
             setProducts(data.data.products);
             setPages(data.total_pages)
-            console.log(data);
         }
         const fetchCategory = async () => {
             const response = await fetch(`http://localhost:8000/api/categories`);
             const data = await response.json();
             setCategories(data.data.categories)
-            console.log(data.data.categories);
         }
         const fetchSubCategory = async () => {
             const response = await fetch(`http://localhost:8000/api/subcategories`);
             const data = await response.json();
             setSubCategories(data.data.subcategories)
-            console.log(data.data.subcategories);
         }
 
         fetchOrders();
