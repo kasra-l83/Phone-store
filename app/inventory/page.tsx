@@ -8,21 +8,21 @@ export default function Inventory() {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [page, setPage]= useState<number>(1);
     const [pages, setPages]= useState<number>(1);
-    const session= localStorage.getItem("token")
     const { push } = useRouter();
 
+    const session= localStorage.getItem("token")
     if(!session){
         push("/")
     }
 
-    useEffect(() => {
-        const fetchInventory = async () => {
-            const response = await fetch(`http://localhost:8000/api/products?page=${page}&limit=3`);
-            const data = await response.json();
-            setProducts(data.data.products);
-            setPages(data.total_pages)
-        }
+    const fetchInventory = async () => {
+        const response = await fetch(`http://localhost:8000/api/products?page=${page}&limit=3`);
+        const data = await response.json();
+        setProducts(data.data.products);
+        setPages(data.total_pages)
+    }
 
+    useEffect(() => {
         fetchInventory();
     }, [page]);
 

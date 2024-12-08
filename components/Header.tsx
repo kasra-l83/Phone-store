@@ -1,3 +1,4 @@
+"use client"
 import { CiSearch } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
 import { BiSolidPhoneCall } from "react-icons/bi";
@@ -5,14 +6,20 @@ import Image from 'next/image'
 import { Button } from "./button";
 
 export default function Header() {
+    const session= localStorage.getItem("token")
     return (
         <header className="flex flex-col gap-y-3 py-5">
             <div className="sm:flex justify-between items-center hidden">
-                <span className="flex gap-10 text-base text-gray-400 font-normal">
+                <span className={`flex gap-10 text-base text-gray-400 font-normal ${!session? "block" : "hidden"}`}>
                     <a href="/" className="hover:text-gray-600">صفحه اصلی</a>
                     <a href="/rules" className="hover:text-gray-600">قوانین و مقررات</a>
                     <a href="/contact" className="hover:text-gray-600">تماس با ما</a>
                     <a href="/about" className="hover:text-gray-600">درباره ما</a>
+                </span>
+                <span className={`flex gap-10 text-base text-gray-400 font-normal ${!session? "hidden" : "block"}`}>
+                    <a href="/orders" className="hover:text-gray-600">سفارشات</a>
+                    <a href="/inventory" className="hover:text-gray-600">موجودی</a>
+                    <a href="/products" className="hover:text-gray-600">محصولات</a>
                 </span>
                 <div className="w-36 relative text-sm text-center">
                     <h6>پشتیبانی 24 ساعته</h6>
@@ -21,7 +28,7 @@ export default function Header() {
                 </div>
             </div>
             <hr className="hidden sm:block"/>
-            <div className="flex justify-between items-center">
+            <div className={`flex justify-between items-center ${!session? "block" : "hidden"}`}>
                 <span className="flex items-center gap-x-2">
                     <Image src="/icon/logo.png" alt='Logo' width={72} height={72}/>
                     <h1 className="text-2xl text-blue-900 font-semibold hidden sm:block">PLAY<span className="text-yellow-700">MEDA</span></h1>

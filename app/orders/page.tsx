@@ -10,31 +10,35 @@ export default function Orders() {
     const [users, setUsers] = useState<IUsers[]>([]);
     const [page, setPage]= useState<number>(1);
     const [pages, setPages]= useState<number>(1);
-    const session= localStorage.getItem("token")
+    const [filter, setFilter] = useState<'all' | 'delivered' | 'notDelivered'>('all');
     const { push } = useRouter();
+
+    const session= localStorage.getItem("token")
     if(!session){
         push("/")
     }
-    useEffect(() => {
-        const fetchOrders = async () => {
-            const response = await fetch(`http://localhost:8000/api/orders?page=${page}&limit=3`);
-            const data = await response.json();
-            setOrders(data.data.orders);
-            setPages(data.total_pages)
-        }
-        const fetchUsers = async () => {
-            const response = await fetch('http://localhost:8000/api/users', {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                }
-            });
-            const data = await response.json();
-            setUsers(data.data.users);
-        }
 
+    const fetchOrders = async () => {
+        const response = await fetch(`http://localhost:8000/api/orders?page=${page}&limit=3`);
+        const data = await response.json();
+        setOrders(data.data.orders);
+        setPages(data.total_pages)
+    }
+    const fetchUsers = async () => {
+        const response = await fetch('http://localhost:8000/api/users', {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+        const data = await response.json();
+        setUsers(data.data.users);
+    }
+
+    useEffect(() => {
         fetchUsers()
         fetchOrders();
     }, [page]);
+
     const getUserNameById = (userId: string) => {
         const user = users.find(user => user._id === userId);
         return user ? `${user.firstname} ${user.lastname}` : '';
@@ -49,14 +53,29 @@ export default function Orders() {
             setPage(page - 1)
         }
     }
+    
     return (
-        <>
+        <section>
             <div className="flex justify-between items-center">
                 <h1 className="font-semibold text-3xl sm:text-4xl mb-5">مدیریت سفارش ها</h1>
                 <span className="flex gap-x-2">
-                    <button onClick={() => before()} className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded">قبلی</button>
-                    <button onClick={() => next()} className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded">بعدی</button>
+                    <button onClick={() => before()} className={`bg-blue-500 hover:bg-blue-700 text-white p-2 rounded ${page===1 ? "hidden" : ""}`}>قبلی</button>
+                    <button onClick={() => next()} className={`bg-blue-500 hover:bg-blue-700 text-white p-2 rounded ${page===pages ? "hidden" : ""}`}>بعدی</button>
                 </span>
+            </div>
+            <div className="flex gap-x-4 mb-5">
+                <label>
+                    <input type="radio" value="all" checked={filter === 'all'} onChange={() => setFilter('all')}/>
+                    همه سفارشات
+                </label>
+                <label>
+                    <input type="radio" value="delivered" checked={filter === 'delivered'} onChange={() => setFilter('delivered')}/>
+                    سفارشات تحویل شده
+                </label>
+                <label>
+                    <input type="radio" value="notDelivered" checked={filter === 'notDelivered'} onChange={() => setFilter('notDelivered')}/>
+                    سفارشات تحویل نشده
+                </label>
             </div>
             <table className="text-right max-w-[1000px] w-full mx-auto border-2 border-black">
                 <thead className="bg-gray-400 text-white">
@@ -68,7 +87,11 @@ export default function Orders() {
                     </tr>
                 </thead>
                 <tbody>
-                    {orders.map((order, index: any) =>(
+                    {orders.filter(order=>{
+                        if(filter === 'delivered') return order.deliveryStatus === true;
+                        if(filter === 'notDelivered') return order.deliveryStatus === false;
+                        return true;
+                    }).map((order, index: any) =>(
                         <tr key={index} className={`${index % 2 !== 0 ? "bg-gray-200" : ""}`}>
                             <td className="border-l-2 border-black pr-2">{getUserNameById(order.user)}</td>
                             <td className="border-l-2 border-black pr-2">{order.totalPrice}</td>
@@ -78,6 +101,6 @@ export default function Orders() {
                     ))}
                 </tbody>
             </table>
-        </>
+        </section>
     )
 }
