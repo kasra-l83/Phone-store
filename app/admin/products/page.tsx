@@ -6,12 +6,13 @@ import { ISubCategory } from "@/types/product";
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
 import Image from 'next/image'
-import { useQuery } from "@tanstack/react-query";
-import { fetchCategoryList, fetchProductList, fetchSubCategoryList } from "@/apis/products.api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchCategoryList, fetchProductList, fetchSubCategoryList, deleteProduct } from "@/apis/products.api";
 
 export default function Orders() {
     const [page, setPage]= useState<number>(1);
-    const { push } = useRouter();
+    const { push }= useRouter();
+    const queryClient= useQueryClient();
 
     const session= localStorage.getItem("token")
     if(!session){
@@ -29,6 +30,12 @@ export default function Orders() {
     const subCategories= useQuery({
         queryKey: ["subCategory"],
         queryFn: () => fetchSubCategoryList()
+    })
+    const deleteMutation = useMutation({
+        mutationFn: (id: string) => deleteProduct(id),
+        onSuccess: () =>{
+            queryClient.invalidateQueries(["products", page]);
+        }
     })
 
     const next= () =>{
@@ -48,6 +55,9 @@ export default function Orders() {
     const getSubCategoryById= (id: string) =>{
         const subCategory= subCategories.data?.find((subCategory: ISubCategory) => subCategory._id=== id);
         return subCategory ? `${subCategory.name}` : "";
+    }
+    const handleDelete = (id: string) => {
+        deleteMutation.mutate(id);
     }
 
     return (
@@ -78,7 +88,7 @@ export default function Orders() {
                             <th className="px-6 py-4 text-gray-900">{getCategoryById(product.category)} / {getSubCategoryById(product.subcategory)}</th>
                             <th className="flex gap-4 px-6 py-4 text-gray-900 h-[160px]">
                                 <button className="text-blue-500 hover:text-blue-700">ویرایش</button>
-                                <button className="text-red-500 hover:text-red-700">حذف</button>
+                                <button onClick={() => handleDelete(product._id)} className="text-red-500 hover:text-red-700">حذف</button>
                             </th>
                         </tr>
                     ))}

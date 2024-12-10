@@ -16,3 +16,8 @@ export const fetchSubCategoryList= async () =>{
   const response= await client.get(urls.subCategory.list)
   return response.data?.data.subcategories;
 }
+export const deleteProduct= async (id: string) =>{
+  const client= generateClient();
+  const response= await client.delete(urls.product.delete(id))
+  return response.data
+}
