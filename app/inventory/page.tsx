@@ -1,64 +1,64 @@
 "use client"
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from 'react';
 
-export default function Orders() {
-    const [products, setProducts] = useState([]);
-    const [page, setPage]= useState<number>(1);
-    const [pages, setPages]= useState<number>(0);
+import { fetchProductList } from "@/apis/products.api";
+import { IProduct } from "@/types/product";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+export default function Inventory() {
+    const [page,setPage]= useState<number>(1)
+    const { push }= useRouter();
+
     const session= localStorage.getItem("token")
-    const { push } = useRouter();
     if(!session){
         push("/")
     }
-    useEffect(() => {
-        const fetchOrders = async () => {
-            const response = await fetch(`http://localhost:8000/api/products?page=${page}&limit=3`);
-            const data = await response.json();
-            setProducts(data.data.products);
-            setPages(data.total_pages)
-            console.log(data);
-        }
 
-        fetchOrders();
-    }, [page]);
+    const products= useQuery({
+        queryKey: ["products", page],
+        queryFn: () => fetchProductList(page)
+    })
     const next= () =>{
-        if(page< pages){
-            setPage(page + 1)
+        if(page< products.data.total_pages){
+            setPage(page+ 1)
         }
     }
     const before= () =>{
         if(page> 1){
-            setPage(page - 1)
+            setPage(page- 1)
         }
     }
+
     return (
         <>
             <div className="mb-5 flex justify-between">
                 <h2 className="sm:text-3xl text-base font-semibold">مدیریت موجودی و قیمت ها</h2>
                 <span className="flex gap-x-2">
-                    <button onClick={() => before()} className={`${page===1 ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>قبلی</button>
-                    <button onClick={() => next()} className={`${page===pages ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>بعدی</button>
+                    <button onClick={before} className={`${page===1 ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>قبلی</button>
+                    <button onClick={next} className={`${page===products.data?.total_pages ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>بعدی</button>
                 </span>
             </div>
-            <table className="border-2 border-black max-w-[1000px] w-full mx-auto text-right">
-                <thead className="bg-gray-400 text-white">
-                    <tr>
-                        <th className="border-l-2 border-black pr-2">کالا</th>
-                        <th className="border-l-2 border-black pr-2">قیمت</th>
-                        <th className="pr-2">موجودی</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.map((product, index) =>(
-                        <tr key={index} className={`${index % 2 !== 0 ? "bg-gray-200" : ""} my-5`}>
-                            <th className="border-l-2 border-black pr-2">{product.name}</th>
-                            <th className="border-l-2 border-black pr-2">{product.price}</th>
-                            <th className="pr-2">{product.quantity}</th>
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="sm:w-full w-[500px] text-gray-500 text-right">
+                    <thead className="text-gray-700">
+                        <tr>
+                            <th scope="col" className="px-6 py-3 bg-gray-50 ">کالا</th>
+                            <th scope="col" className="px-6 py-3">قیمت</th>
+                            <th scope="col" className="px-6 py-3 bg-gray-50 ">موجودی</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {products.data?.data.products.map((product, index) =>(
+                        <tr key={index} className="border-b border-gray-200">
+                            <th className="px-6 py-4 whitespace-nowrap bg-gray-50">{product.name}</th>
+                            <th className="px-6 py-4">{product.price}</th>
+                            <th className="px-6 py-4 bg-gray-50">{product.quantity}</th>
                         </tr>
                     ))}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </>
     )
 }
