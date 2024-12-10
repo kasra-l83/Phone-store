@@ -1,18 +1,16 @@
 "use client"
 
-import { ICategory } from "@/types/category";
+import { ICategory } from "@/types/product";
 import { IProduct } from "@/types/product";
-import { ISubCategory } from "@/types/subCategory";
+import { ISubCategory } from "@/types/product";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image'
+import { useQuery } from "@tanstack/react-query";
+import { fetchCategoryList, fetchProductList, fetchSubCategoryList } from "@/apis/products.api";
 
 export default function Orders() {
-    const [products, setProducts] = useState<IProduct[]>([]);
     const [page, setPage]= useState<number>(1);
-    const [pages, setPages]= useState<number>(1);
-    const [categories, setCategories] = useState<ICategory[]>([]);
-    const [subCategories, setSubCategories] = useState<ISubCategory[]>([]);
     const { push } = useRouter();
 
     const session= localStorage.getItem("token")
@@ -20,31 +18,21 @@ export default function Orders() {
         push("/")
     }
 
-    const fetchOrders = async () => {
-        const response = await fetch(`http://localhost:8000/api/products?page=${page}&limit=3`);
-        const data = await response.json();
-        setProducts(data.data.products);
-        setPages(data.total_pages)
-    }
-    const fetchCategory = async () => {
-        const response = await fetch(`http://localhost:8000/api/categories`);
-        const data = await response.json();
-        setCategories(data.data.categories)
-    }
-    const fetchSubCategory = async () => {
-        const response = await fetch(`http://localhost:8000/api/subcategories`);
-        const data = await response.json();
-        setSubCategories(data.data.subcategories)
-    }
-
-    useEffect(() => {
-        fetchOrders();
-        fetchCategory();
-        fetchSubCategory();
-    }, [page]);
+    const products= useQuery({
+        queryKey: ["products", page],
+        queryFn: () => fetchProductList(page)
+    })
+    const categories= useQuery({
+        queryKey: ["category"],
+        queryFn: () => fetchCategoryList()
+    })
+    const subCategories= useQuery({
+        queryKey: ["subCategory"],
+        queryFn: () => fetchSubCategoryList()
+    })
 
     const next= () =>{
-        if(page< pages){
+        if(page< products.data?.total_pages){
             setPage(page + 1)
         }
     }
@@ -53,13 +41,13 @@ export default function Orders() {
             setPage(page - 1)
         }
     }
-    const getCategoryById = (id: string) => {
-        const category = categories.find(category => category._id === id);
-        return category ? `${category.name}` : '';
+    const getCategoryById= (id: string) =>{
+        const category= categories.data?.find((category: ICategory) => category._id=== id);
+        return category ? `${category.name}` : "";
     }
-    const getSubCategoryById = (id: string) => {
-        const subCategory = subCategories.find(subCategory => subCategory._id === id);
-        return subCategory ? `${subCategory.name}` : '';
+    const getSubCategoryById= (id: string) =>{
+        const subCategory= subCategories.data?.find((subCategory: ISubCategory) => subCategory._id=== id);
+        return subCategory ? `${subCategory.name}` : "";
     }
 
     return (
@@ -68,8 +56,8 @@ export default function Orders() {
                 <h2 className="sm:text-3xl text-base font-semibold">مدیریت کالا ها</h2>
                 <span className="flex gap-x-2">
                     <button className="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded">افزودن کالا</button>
-                    <button onClick={() => before()} className={`${page===1 ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>قبلی</button>
-                    <button onClick={() => next()} className={`${page===pages ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>بعدی</button>
+                    <button onClick={before} className={`${page===1 ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>قبلی</button>
+                    <button onClick={next} className={`${page===products.data?.total_pages ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>بعدی</button>
                 </span>
             </div>
             <table className="border-2 border-black max-w-[1000px] w-full mx-auto text-right">
@@ -82,7 +70,7 @@ export default function Orders() {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map((product, index) =>(
+                    {products.data?.data.products.map((product: IProduct, index: number) =>(
                         <tr key={index} className={`${index % 2 !== 0 ? "bg-gray-200" : ""}`}>
                             <th className="border-l-2 border-black pr-2"><Image src={`http://localhost:8000/images/products/images/${product.images[0]}`} alt={product.name} width={80} height={80}/></th>
                             <th className="border-l-2 border-black pr-2">{product.name}</th>

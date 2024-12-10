@@ -14,3 +14,19 @@ export interface IProduct{
     updatedAt: string
     _id: string
 }
+export interface ICategory{
+    _id: string
+    name: string
+    icon: string
+    createdAt: string
+    updatedAt: string
+    slugname: string
+}
+export interface ISubCategory{
+    _id: string
+    name: string
+    category: string
+    createdAt: string
+    updatedAt: string
+    slugname: string
+}

@@ -1,7 +1,7 @@
 import { LoginForm } from "@/components/LoginForm";
 import Image from 'next/image'
 
-const LoginPage = () =>{
+const LoginPage= () =>{
   return (
     <section className='max-w-[440px] h-[479px] mx-auto border border-blue-500 rounded-lg px-8 flex flex-col items-center justify-around'>
       <div className="flex items-center gap-x-2">

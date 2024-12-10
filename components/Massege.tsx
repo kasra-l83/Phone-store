@@ -2,7 +2,7 @@
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./Input";
-import { Schema } from "../validation";
+import { Schema } from "../utils/validation";
 import { IMassege } from "../types/sendmassege";
 import { RiSendPlaneFill } from "react-icons/ri";
 

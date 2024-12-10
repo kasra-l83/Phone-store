@@ -1,4 +1,4 @@
-export interface IOrders{
+export interface IOrder{
     _id: string
     user: string
     products: [

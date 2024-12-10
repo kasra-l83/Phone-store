@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export type authSchemaType= z.infer<typeof authSchema>;
+
 export const Schema= z.object({
   fullName: z
     .string()
@@ -25,8 +27,6 @@ export const Schema= z.object({
     )
 })
 export const authSchema = z.object({
-  username: z.string().min(5, "آیدی باید حداقل 5 حرف باشد"),
+  username: z.string().min(5, "نام کاربری باید حداقل 5 حرف باشد"),
   password: z.string().min(8, "رمز عبور باید حداقل 8 حرف باشد")
 })
-
-export type authSchemaType= z.infer<typeof authSchema>;

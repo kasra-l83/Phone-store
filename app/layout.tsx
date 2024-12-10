@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
-import { ToastifyProvider } from "@/provider/toastify.provider";
-import { TanstackProvider } from "@/provider/tanstak.provider";
+import { ToastifyProvider } from "@/providers/toastify.provider";
+import { TanstackProvider } from "@/providers/tanstak.provider";
+import { QueryClintProvider } from "@/providers/queryclient.provider";
 
 export const metadata: Metadata = {
   title: "پلی مدا",
@@ -12,13 +13,17 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
   return (
     <html lang="fa" dir="rtl">
-      <body className="antialiased max-w-[1600px] mx-auto px-5">
-        <ToastifyProvider>
-          <TanstackProvider>
-            <Header/>
-            {children}
-          </TanstackProvider>
-        </ToastifyProvider>
+      <body className="antialiased">
+        <Header/>
+        <div className="max-w-[1440px] mx-auto px-5">
+          <ToastifyProvider>
+            <TanstackProvider>
+              <QueryClintProvider>
+                {children}
+              </QueryClintProvider>
+            </TanstackProvider>
+          </ToastifyProvider>
+        </div>
       </body>
     </html>
   )
