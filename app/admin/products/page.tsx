@@ -60,29 +60,31 @@ export default function Orders() {
                     <button onClick={next} className={`${page===products.data?.total_pages ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>بعدی</button>
                 </span>
             </div>
-            <table className="border-2 border-black max-w-[1000px] w-full mx-auto text-right">
-                <thead className="bg-gray-400 text-white">
-                    <tr>
-                        <th className="border-l-2 border-black pr-2">تصاویر</th>
-                        <th className="border-l-2 border-black pr-2">نام کالا</th>
-                        <th className="border-l-2 border-black pr-2">دسته بندی</th>
-                        <th className="pr-2"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.data?.data.products.map((product: IProduct, index: number) =>(
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="w-[500px] sm:w-full text-gray-500 text-right">
+                    <thead className="text-gray-700 bg-gray-50">
+                        <tr>
+                            <th scope="col" className="px-16 py-3">تصویر</th>
+                            <th scope="col" className="px-6 py-3">نام کالا</th>
+                            <th scope="col" className="px-6 py-3">دسته بندی</th>
+                            <th scope="col" className="px-6 py-3">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                {products.data?.data.products.map((product: IProduct, index: number) =>(
                         <tr key={index} className={`${index % 2 !== 0 ? "bg-gray-200" : ""}`}>
-                            <th className="border-l-2 border-black pr-2"><Image src={`http://localhost:8000/images/products/images/${product.images[0]}`} alt={product.name} width={80} height={80}/></th>
-                            <th className="border-l-2 border-black pr-2">{product.name}</th>
-                            <th className="border-l-2 border-black pr-2">{getCategoryById(product.category)} / {getSubCategoryById(product.subcategory)}</th>
-                            <th className="pr-2 flex flex-wrap gap-4 justify-center items-center h-20">
+                            <th className="p-4"><Image className="w-16 md:w-32 max-w-full max-h-full" src={`http://localhost:8000/images/products/images/${product.images[0]}`} alt={product.name} width={80} height={80}/></th>
+                            <th className="px-6 py-4 text-gray-900 text-nowrap">{product.name}</th>
+                            <th className="px-6 py-4 text-gray-900">{getCategoryById(product.category)} / {getSubCategoryById(product.subcategory)}</th>
+                            <th className="flex gap-4 px-6 py-4 text-gray-900 h-[160px]">
                                 <button className="text-blue-500 hover:text-blue-700">ویرایش</button>
                                 <button className="text-red-500 hover:text-red-700">حذف</button>
                             </th>
                         </tr>
                     ))}
                 </tbody>
-            </table>
+                </table>
+            </div>
         </>
     )
 }
