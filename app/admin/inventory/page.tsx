@@ -36,24 +36,26 @@ export default function Inventory() {
                     <button onClick={next} className={`${page===products.data?.total_pages ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>بعدی</button>
                 </span>
             </div>
-            <table className="border-2 border-black max-w-[1000px] w-full mx-auto text-right">
-                <thead className="bg-gray-400 text-white">
-                    <tr>
-                        <th className="border-l-2 border-black pr-2">کالا</th>
-                        <th className="border-l-2 border-black pr-2">قیمت</th>
-                        <th className="pr-2">موجودی</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.data?.data.products.map((product: IProduct, index: number) =>(
-                        <tr key={index} className={`${index % 2 !== 0 ? "bg-gray-200" : ""} my-5`}>
-                            <th className="border-l-2 border-black pr-2">{product.name}</th>
-                            <th className="border-l-2 border-black pr-2">{product.price}</th>
-                            <th className="pr-2">{product.quantity}</th>
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="w-full text-right text-gray-500">
+                    <thead className="text-gray-700">
+                        <tr>
+                            <th scope="col" className="px-6 py-3 bg-gray-50">کالا</th>
+                            <th scope="col" className="px-6 py-3">قیمت</th>
+                            <th scope="col" className="px-6 py-3 bg-gray-50">موجودی</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {products.data?.data.products.map((product, index: number) =>(
+                            <tr key={index} className="border-b border-gray-200">
+                                <td className="px-6 py-3 bg-gray-50">{product.name}</td>
+                                <td className="px-6 py-3">{product.price}</td>
+                                <td className="px-6 py-3 bg-gray-50">{product.quantity}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </>
     )
 }
