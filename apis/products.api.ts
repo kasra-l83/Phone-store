@@ -6,6 +6,11 @@ export const fetchProductList= async (page: number) =>{
   const response= await client.get(urls.product.list(page))
   return response.data;
 }
+export const fetchAllList= async (perPage: number) =>{
+  const client= generateClient();
+  const response= await client.get(urls.product.all(perPage))
+  return response.data;
+}
 export const fetchCategoryList= async () =>{
   const client= generateClient();
   const response= await client.get(urls.category.list)
