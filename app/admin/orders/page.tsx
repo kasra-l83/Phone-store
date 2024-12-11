@@ -7,16 +7,14 @@ import { fetchOrderList } from "@/apis/orders.api";
 import { fetchUserList } from "@/apis/users.api";
 import { IOrder } from "@/types/orders";
 import { IUser } from "@/types/users";
+import useAuth from "@/hooks/auth";
 
 export default function Orders() {
+    useAuth();
     const [filter, setFilter]= useState<'all' | 'delivered' | 'notDelivered'>('all');
     const [page, setPage]= useState<number>(1)
     const { push } = useRouter();
 
-    const session= localStorage.getItem("token")
-    if(!session){
-        push("/")
-    }
     const orders= useQuery({
         queryKey: ["orders", page],
         queryFn: () => fetchOrderList(page)

@@ -1,19 +1,16 @@
 "use client"
 
 import { fetchProductList } from "@/apis/products.api";
+import useAuth from "@/hooks/auth";
 import { IProduct } from "@/types/product";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Inventory() {
+    useAuth();
     const [page,setPage]= useState<number>(1)
     const { push }= useRouter();
-
-    const session= localStorage.getItem("token")
-    if(!session){
-        push("/")
-    }
 
     const products= useQuery({
         queryKey: ["products", page],

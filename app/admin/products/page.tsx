@@ -8,16 +8,13 @@ import { useState } from 'react';
 import Image from 'next/image'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCategoryList, fetchProductList, fetchSubCategoryList, deleteProduct } from "@/apis/products.api";
+import useAuth from "@/hooks/auth";
 
 export default function Orders() {
+    useAuth();
     const [page, setPage]= useState<number>(1);
     const { push }= useRouter();
     const queryClient= useQueryClient();
-
-    const session= localStorage.getItem("token")
-    if(!session){
-        push("/")
-    }
 
     const products= useQuery({
         queryKey: ["products", page],

@@ -10,3 +10,8 @@ export const fetchUserList= async () =>{
   })
   return response.data.data.users;
 }
+export const login = async (body) => {
+  const client = generateClient();
+  const response = await client.post(urls.user.login, body);
+  return response.data;
+}
