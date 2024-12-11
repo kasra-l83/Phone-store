@@ -3,11 +3,12 @@
 import { useForm, Controller } from "react-hook-form"
 import { Input } from "./Input"
 import { authSchema, authSchemaType } from "../utils/validation";
+import { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLogin } from "@/apis/mutation";
+import { errorHandler } from "../utils/errorHandler";
+import React from "react";
 import { toast } from "react-toastify";
-import { useMutation } from "react-query";
-import { urls } from "@/apis/urls";
-import { generateClient } from "@/apis/client";
 
 export const LoginForm: React.FC= () =>{
     const {control, handleSubmit, reset}= useForm<authSchemaType>({
@@ -15,30 +16,27 @@ export const LoginForm: React.FC= () =>{
         mode:"all"
     })
     
-    const mutation= useMutation(async (data: authSchemaType) =>{
-        const client= generateClient();
-        const response= await client.post(urls.user.login, data);
-        return response.data;
-    }, {
-        onSuccess: (result) =>{
-            localStorage.setItem("token", result.token.accessToken);
-            toast.success("ورود موفق");
-            reset();
-            setTimeout(() =>{
-                window.location.href= "/admin/orders"
-            }, 3000);
-        },
-        onError: () =>{
-            toast.error("نام کاربری یا رمز عبور نامعتبر");
-        }
-    })
-
-    const login= (data: authSchemaType) =>{
-        mutation.mutate(data);
+    const login= useLogin();
+    const submit= (data: authSchemaType) =>{
+        login.mutate(data);
     }
+
+    React.useEffect(() =>{
+        if (!login.data || !login.isSuccess) return;
+        localStorage.setItem("token", login.data?.token.accessToken);
+        toast.success("login successfully");
+        reset();
+        setTimeout(() =>{
+            window.location.href= "/admin/orders"
+        }, 3000);
+    }, [login.data, login.isSuccess])
+    React.useEffect(() =>{
+        if (!login.error || !login.isError) return;
+            errorHandler(login.error as AxiosError);
+    }, [login.error, login.isError])
     
     return(
-        <form name="login" className='w-full flex flex-col gap-y-5' onSubmit={handleSubmit(login)}>
+        <form name="login" className='w-full flex flex-col gap-y-5' onSubmit={handleSubmit(submit)}>
             <Controller defaultValue="" name='username' control={control} render={({field, fieldState: {error}}) =>(
                 <Input {...field} error={error?.message} label='نام کاربری'/>
             )}/>
