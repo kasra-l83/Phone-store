@@ -62,30 +62,32 @@ export default function Orders() {
                     سفارشات تحویل نشده
                 </label>
             </div>
-            <table className="text-right max-w-[1000px] w-full mx-auto border-2 border-black">
-                <thead className="bg-gray-400 text-white">
-                    <tr>
-                        <td className="border-l-2 border-black pr-2">نام کاربر</td>
-                        <td className="border-l-2 border-black pr-2">مجموع مبلغ</td>
-                        <td className="border-l-2 border-black text-center">زمان ثبت سفارش</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {orders.data?.data.orders.filter((order: IOrder)=>{
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="w-full text-right text-gray-500">
+                    <thead className="text-gray-700">
+                        <tr>
+                            <th scope="col" className="px-6 py-3 bg-gray-50">نام کاربر</th>
+                            <th scope="col" className="px-6 py-3">مجموع مبلغ</th>
+                            <th scope="col" className="px-6 py-3 bg-gray-50">زمان ثبت سفارش</th>
+                            <th scope="col" className="px-6 py-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {orders.data?.data.orders.filter((order: IOrder)=>{
                         if(filter=== 'delivered') return order.deliveryStatus=== true;
                         if(filter=== 'notDelivered') return order.deliveryStatus=== false;
                         return true;
-                    }).map((order: IOrder, index: number) =>(
-                        <tr key={index} className={`${index % 2 !== 0 ? "bg-gray-200" : ""}`}>
-                            <td className="border-l-2 border-black pr-2">{getUserById(order.user)}</td>
-                            <td className="border-l-2 border-black pr-2">{order.totalPrice}</td>
-                            <td className="border-l-2 border-black text-center">{format(order.createdAt, "yyyy/MM/dd")}</td>
-                            <td className="text-blue-500 hover:text-blue-700 text-center"><button>بررسی سفارش ها</button></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                    }).map((orders, index: number) =>(
+                            <tr key={index} className="border-b border-gray-200">
+                                <td className="px-6 py-4 bg-gray-50">{getUserById(orders.user)}</td>
+                                <td className="px-6 py-4">{formatPrice(orders.totalPrice)}</td>
+                                <td className="px-6 py-4 bg-gray-50">{format(orders.createdAt, "yyyy/MM/dd")}</td>
+                                <td className="px-6 py-4"><button>بررسی سفارش ها</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </section>
     )
 }

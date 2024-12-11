@@ -1,10 +1,6 @@
 import Image from 'next/image'
 import { FaRegHeart } from "react-icons/fa6";
 
-const formatPrice= (price: number) =>{
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
 export const ProductCard: React.FC<any>= ({image, name, price}) =>{
   return (
     <div className="h-72 w-60 rounded-lg relative">
