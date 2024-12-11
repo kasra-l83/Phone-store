@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { FaRegHeart } from "react-icons/fa6";
+import { formatPrice } from "../utils/global";
 
 export const ProductCard: React.FC<any>= ({image, name, price}) =>{
   return (

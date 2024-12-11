@@ -1,5 +1,4 @@
 "use client"
-import { useRouter } from "next/navigation";
 import { useState } from 'react';
 import { format } from "date-fns-jalali";
 import { useQuery } from "@tanstack/react-query";
@@ -8,12 +7,12 @@ import { fetchUserList } from "@/apis/users.api";
 import { IOrder } from "@/types/orders";
 import { IUser } from "@/types/users";
 import useAuth from "@/hooks/auth";
+import { formatPrice } from "@/utils/global";
 
 export default function Orders() {
     useAuth();
     const [filter, setFilter]= useState<'all' | 'delivered' | 'notDelivered'>('all');
     const [page, setPage]= useState<number>(1)
-    const { push } = useRouter();
 
     const orders= useQuery({
         queryKey: ["orders", page],
@@ -77,7 +76,7 @@ export default function Orders() {
                         if(filter=== 'delivered') return order.deliveryStatus=== true;
                         if(filter=== 'notDelivered') return order.deliveryStatus=== false;
                         return true;
-                    }).map((orders, index: number) =>(
+                    }).map((orders: IOrder, index: number) =>(
                             <tr key={index} className="border-b border-gray-200">
                                 <td className="px-6 py-4 bg-gray-50">{getUserById(orders.user)}</td>
                                 <td className="px-6 py-4">{formatPrice(orders.totalPrice)}</td>
