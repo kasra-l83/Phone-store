@@ -14,8 +14,7 @@ export const urls= {
     byId: (id: string) => `/users/${id}`
   },
   product: {
-    list: (page: number) => `/products?page=${page}&limit=5`,
-    all: (perPage: number) => `/products?limit=${perPage}`,
+    list: (page: number, perPage: number) => `/products?page=${page}&limit=${perPage}`,
     delete:(id: string) => `/products/${id}`
   }
 }

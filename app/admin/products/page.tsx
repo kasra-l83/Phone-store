@@ -18,7 +18,7 @@ export default function Orders() {
 
     const products= useQuery({
         queryKey: ["products", page],
-        queryFn: () => fetchProductList(page)
+        queryFn: () => fetchProductList(page, 5)
     })
     const categories= useQuery({
         queryKey: ["category"],

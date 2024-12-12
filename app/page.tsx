@@ -1,6 +1,6 @@
 "use client"
 
-import { fetchAllList } from '@/apis/products.api';
+import { fetchProductList } from '@/apis/products.api';
 import { ProductCard } from '@/components/ProductCard';
 import { IProduct } from '@/types/product';
 import Image from 'next/image'
@@ -10,7 +10,7 @@ import { useQuery } from 'react-query';
 export default function Home() {
   const products= useQuery({
     queryKey: ["products"],
-    queryFn: () => fetchAllList(9)
+    queryFn: () => fetchProductList(1, products.data?.total)
   })
   
   return (
@@ -33,7 +33,7 @@ export default function Home() {
               return true
             }
             return false;
-          }).map((product: IProduct, index: number) =>(
+          }).slice(0, 5).map((product: IProduct, index: number) =>(
             <ProductCard key={index} image={product.images[0]} name={product.name} price={product.price}/>
           ))}
         </div>
@@ -53,7 +53,7 @@ export default function Home() {
               return true
             }
             return false;
-          }).map((product: IProduct, index: number) =>(
+          }).slice(0, 5).map((product: IProduct, index: number) =>(
             <ProductCard key={index} image={product.images[0]} name={product.name} price={product.price}/>
           ))}
         </div>
