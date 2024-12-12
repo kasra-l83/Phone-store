@@ -13,7 +13,7 @@ export default function Inventory() {
 
     const products= useQuery({
         queryKey: ["products", page],
-        queryFn: () => fetchProductList(page)
+        queryFn: () => fetchProductList(page, 5)
     })
     const next= () =>{
         if(page< products.data.total_pages){

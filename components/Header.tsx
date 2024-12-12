@@ -33,6 +33,7 @@ export default function Header() {
                 </span>
                 <span className={`hidden gap-x-10 text-base text-gray-400 font-normal ${!session? "lg:flex" : ""}`}>
                     <a href="/" className="hover:text-gray-600">صفحه اصلی</a>
+                    <a href="/products" className="hover:text-gray-600">محصولات</a>
                     <a href="/rules" className="hover:text-gray-600">قوانین و مقررات</a>
                     <a href="/contact" className="hover:text-gray-600">تماس با ما</a>
                     <a href="/about" className="hover:text-gray-600">درباره ما</a>

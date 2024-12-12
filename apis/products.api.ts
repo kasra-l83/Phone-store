@@ -1,14 +1,9 @@
 import { generateClient } from "./client";
 import { urls } from "./urls";
 
-export const fetchProductList= async (page: number) =>{
+export const fetchProductList= async (page: number, perPage: number) =>{
   const client= generateClient();
-  const response= await client.get(urls.product.list(page))
-  return response.data;
-}
-export const fetchAllList= async (perPage: number) =>{
-  const client= generateClient();
-  const response= await client.get(urls.product.all(perPage))
+  const response= await client.get(urls.product.list(page, perPage))
   return response.data;
 }
 export const fetchCategoryList= async () =>{
