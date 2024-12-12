@@ -4,14 +4,22 @@ import { IoCartOutline } from "react-icons/io5";
 import Image from 'next/image'
 import { useRouter } from "next/navigation";
 import { TiThMenu } from "react-icons/ti";
+import { useState } from "react";
+import { IoCloseSharp } from "react-icons/io5";
 
 export default function Header() {
-    const session= localStorage.getItem("token");
+    const [open, setOpen]= useState(false);
     const { push }= useRouter();
+
+    const session= localStorage.getItem("token");
+    
     const click= () =>{
         push("/login")
     }
+    const openHandler= () => setOpen(true);
+    const closeHandler= () => setOpen(false);
     return (
+        <>
         <header className="flex flex-col justify-center gap-y-3 p-5">
             <div className="flex flex-row-reverse justify-between items-center sm:flex-row">
                 <span className={`gap-x-10 text-base text-gray-400 font-normal ${!session? "hidden" : "hidden sm:flex"}`}>
@@ -33,11 +41,30 @@ export default function Header() {
                     <button onClick={click} className="text-blue-500 w-40 py-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 hidden sm:block">ورود یا ثبت نام</button>
                     <button className="text-xl text-blue-500 p-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 relative"><IoCartOutline/><div className="bg-blue-500 text-white absolute right-[-10px] top-[-10px] rounded-full size-6 flex justify-center items-center">0</div></button>
                 </span>
-                <div className="p-[10px] bg-blue-500 text-white text-lg rounded-lg cursor-pointer sm:hidden">
+                <button onClick={openHandler} className="p-[10px] bg-blue-500 text-white text-lg rounded-lg sm:hidden">
                     <TiThMenu />
-                </div>
+                </button>
             </div>
             <hr/>
         </header>
+        {open && !session && (
+            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[100%] absolute top-0 z-20">
+                <button onClick={closeHandler} className="text-3xl mb-5"><IoCloseSharp/></button>
+            <a onClick={closeHandler} href="/" className="hover:bg-white hover:text-blue-500 py-2 pr-1">صفحه اصلی</a>
+            <a onClick={closeHandler} href="/products" className="hover:bg-white hover:text-blue-500 py-2 pr-1">محصولات</a>
+            <a onClick={closeHandler} href="/rules" className="hover:bg-white hover:text-blue-500 py-2 pr-1">قوانین و مقررات</a>
+            <a onClick={closeHandler} href="/contact" className="hover:bg-white hover:text-blue-500 py-2 pr-1">تماس با ما</a>
+            <a onClick={closeHandler} href="/about" className="hover:bg-white hover:text-blue-500 py-2 pr-1">درباره ما</a>
+        </div>
+        )}
+        {open && session && (
+            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[100%] absolute top-0">
+                <button onClick={closeHandler} className="text-3xl mb-5"><IoCloseSharp/></button>
+            <a onClick={closeHandler} href="/admin/orders" className="hover:bg-white hover:text-blue-500 py-2 pr-1">سفارشات</a>
+            <a onClick={closeHandler} href="/admin/inventory" className="hover:bg-white hover:text-blue-500 py-2 pr-1">موجودی</a>
+            <a onClick={closeHandler} href="/admin/products" className="hover:bg-white hover:text-blue-500 py-2 pr-1">محصولات</a>
+        </div>
+        )}
+        </>
     )
 }
