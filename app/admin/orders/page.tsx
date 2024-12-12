@@ -81,7 +81,7 @@ export default function Orders() {
                                 <td className="px-6 py-4 bg-gray-50">{getUserById(orders.user)}</td>
                                 <td className="px-6 py-4">{formatPrice(orders.totalPrice)}</td>
                                 <td className="px-6 py-4 bg-gray-50">{format(orders.createdAt, "yyyy/MM/dd")}</td>
-                                <td className="px-6 py-4"><button>بررسی سفارش ها</button></td>
+                                <td className="px-6 py-4 text-blue-500 hover:text-blue-700"><button>بررسی سفارش ها</button></td>
                             </tr>
                         ))}
                     </tbody>

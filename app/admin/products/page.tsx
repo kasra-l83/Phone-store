@@ -3,7 +3,6 @@
 import { ICategory } from "@/types/product";
 import { IProduct } from "@/types/product";
 import { ISubCategory } from "@/types/product";
-import { useRouter } from "next/navigation";
 import { useState } from 'react';
 import Image from 'next/image'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,7 +12,6 @@ import useAuth from "@/hooks/auth";
 export default function Orders() {
     useAuth();
     const [page, setPage]= useState<number>(1);
-    const { push }= useRouter();
     const queryClient= useQueryClient();
 
     const products= useQuery({
@@ -47,11 +45,11 @@ export default function Orders() {
     }
     const getCategoryById= (id: string) =>{
         const category= categories.data?.find((category: ICategory) => category._id=== id);
-        return category ? `${category.name}` : "";
+        return category?.name
     }
     const getSubCategoryById= (id: string) =>{
         const subCategory= subCategories.data?.find((subCategory: ISubCategory) => subCategory._id=== id);
-        return subCategory ? `${subCategory.name}` : "";
+        return subCategory?.name
     }
     const handleDelete = (id: string) => {
         deleteMutation.mutate(id);

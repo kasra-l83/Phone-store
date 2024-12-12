@@ -23,20 +23,20 @@ export default function Header() {
         <header className="flex flex-col justify-center gap-y-3 p-5">
             <div className="flex flex-row-reverse justify-between items-center sm:flex-row">
                 <span className={`gap-x-10 text-base text-gray-400 font-normal ${!session? "hidden" : "hidden sm:flex"}`}>
-                    <a href="/admin/orders" className="hover:text-gray-600">سفارشات</a>
-                    <a href="/admin/inventory" className="hover:text-gray-600">موجودی</a>
-                    <a href="/admin/products" className="hover:text-gray-600">محصولات</a>
+                    <a href="/admin/orders" className="hover:text-blue-500">سفارشات</a>
+                    <a href="/admin/inventory" className="hover:text-blue-500">موجودی</a>
+                    <a href="/admin/products" className="hover:text-blue-500">محصولات</a>
                 </span>
                 <span className="flex items-center gap-x-2">
                     <Image src="/icon/logo.png" alt='Logo' width={72} height={72}/>
                     <h1 className="text-2xl text-blue-900 font-semibold hidden sm:block">PLAY<span className="text-yellow-700">MEDA</span></h1>
                 </span>
                 <span className={`hidden gap-x-10 text-base text-gray-400 font-normal ${!session? "lg:flex" : ""}`}>
-                    <a href="/" className="hover:text-gray-600">صفحه اصلی</a>
-                    <a href="/products" className="hover:text-gray-600">محصولات</a>
-                    <a href="/rules" className="hover:text-gray-600">قوانین و مقررات</a>
-                    <a href="/contact" className="hover:text-gray-600">تماس با ما</a>
-                    <a href="/about" className="hover:text-gray-600">درباره ما</a>
+                    <a href="/" className="hover:text-blue-500">صفحه اصلی</a>
+                    <a href="/products" className="hover:text-blue-500">محصولات</a>
+                    <a href="/rules" className="hover:text-blue-500">قوانین و مقررات</a>
+                    <a href="/contact" className="hover:text-blue-500">تماس با ما</a>
+                    <a href="/about" className="hover:text-blue-500">درباره ما</a>
                 </span>
                 <span className={`flex gap-x-5 ${!session ? "" : "hidden"}`}>
                     <button onClick={click} className="text-blue-500 w-40 py-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 hidden sm:block">ورود یا ثبت نام</button>
