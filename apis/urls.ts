@@ -3,10 +3,12 @@ export const urls= {
     list: (page: number) => `/orders?page=${page}&limit=5`
   },
   category: {
-    list: "/categories"
+    list: "/categories",
+    byId: (id: string) => `/categories/${id}`
   },
   subCategory: {
-    list: "/subcategories"
+    list: "/subcategories",
+    byId: (id: string) => `/subcategories/${id}`,
   },
   user: {
     login: "/auth/login",
@@ -15,6 +17,7 @@ export const urls= {
   },
   product: {
     list: (page: number, perPage: number) => `/products?page=${page}&limit=${perPage}`,
+    byId: (id: string) => `/products/${id}`,
     delete:(id: string) => `/products/${id}`
   }
 }

@@ -34,7 +34,7 @@ export default function Home() {
             }
             return false;
           }).slice(0, 5).map((product: IProduct, index: number) =>(
-            <ProductCard key={index} image={product.images[0]} name={product.name} price={product.price}/>
+            <ProductCard key={index} id={product._id} image={product.images[0]} name={product.name} price={product.price}/>
           ))}
         </div>
       </section>
@@ -54,7 +54,7 @@ export default function Home() {
             }
             return false;
           }).slice(0, 5).map((product: IProduct, index: number) =>(
-            <ProductCard key={index} image={product.images[0]} name={product.name} price={product.price}/>
+            <ProductCard key={index} id={product._id} image={product.images[0]} name={product.name} price={product.price}/>
           ))}
         </div>
       </section>

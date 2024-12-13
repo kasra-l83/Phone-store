@@ -16,17 +16,11 @@ export default function Products() {
   return (
     <div className='flex flex-col gap-y-5'>
       <section className='mb-10 flex flex-col gap-y-3'>
-        <span className='flex justify-between'>
-          <h3 className='text-3xl font-bold'>محصولات</h3>
-          <span className='flex gap-x-1 items-center'>
-            <button className='text-base text-blue-500 hover:text-blue-700 font-normal'>مشاهده همه</button>
-            <GoChevronLeft className='text-blue-500 text-xl hover:text-blue-700'/>
-          </span>
-        </span>
+        <h3 className='text-3xl font-bold'>محصولات</h3>
         <hr />
         <div className='flex justify-between gap-y-5 flex-wrap'>
           {products.data?.data.products.map((product: IProduct, index: number) =>(
-            <ProductCard key={index} image={product.images[0]} name={product.name} price={product.price}/>
+            <ProductCard key={index} id={product._id} image={product.images[0]} name={product.name} price={product.price}/>
           ))}
         </div>
       </section>
