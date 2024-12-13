@@ -6,6 +6,10 @@ import { useRouter } from "next/navigation";
 import { TiThMenu } from "react-icons/ti";
 import { useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
+import { IoHomeSharp } from "react-icons/io5";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { FaPencilRuler } from "react-icons/fa";
+import { FaPhoneFlip } from "react-icons/fa6";
 
 export default function Header() {
     const [open, setOpen]= useState(false);
@@ -49,17 +53,20 @@ export default function Header() {
             <hr/>
         </header>
         {open && !session && (
-            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[100%] absolute top-0 z-20">
-                <button onClick={closeHandler} className="text-3xl mb-5"><IoCloseSharp/></button>
-            <a onClick={closeHandler} href="/" className="hover:bg-white hover:text-blue-500 py-2 pr-1">صفحه اصلی</a>
-            <a onClick={closeHandler} href="/products" className="hover:bg-white hover:text-blue-500 py-2 pr-1">محصولات</a>
-            <a onClick={closeHandler} href="/rules" className="hover:bg-white hover:text-blue-500 py-2 pr-1">قوانین و مقررات</a>
-            <a onClick={closeHandler} href="/contact" className="hover:bg-white hover:text-blue-500 py-2 pr-1">تماس با ما</a>
-            <a onClick={closeHandler} href="/about" className="hover:bg-white hover:text-blue-500 py-2 pr-1">درباره ما</a>
+            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[50%] absolute top-0 z-20">
+                <span className="flex items-center justify-between mb-5 px-2">
+                    <h6>منو</h6>
+                    <button onClick={closeHandler} className="text-3xl"><IoCloseSharp/></button>
+                </span>
+            <a onClick={closeHandler} href="/" className="hover:bg-white hover:text-blue-500 py-2 pr-1 flex gap-x-2 items-center"><IoHomeSharp />صفحه اصلی</a>
+            <a onClick={closeHandler} href="/products" className="hover:bg-white hover:text-blue-500 py-2 pr-1 flex gap-x-2 items-center"><MdOutlineProductionQuantityLimits />محصولات</a>
+            <a onClick={closeHandler} href="/rules" className="hover:bg-white hover:text-blue-500 py-2 pr-1 flex gap-x-2 items-center"><FaPencilRuler />قوانین و مقررات</a>
+            <a onClick={closeHandler} href="/contact" className="hover:bg-white hover:text-blue-500 py-2 pr-1 flex gap-x-2 items-center"><FaPhoneFlip />تماس با ما</a>
+            <a onClick={closeHandler} href="/about" className="hover:bg-white hover:text-blue-500 py-2 pr-1 flex gap-x-2 items-center">درباره ما</a>
         </div>
         )}
         {open && session && (
-            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[100%] absolute top-0">
+            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[50%] absolute top-0 z-20">
                 <button onClick={closeHandler} className="text-3xl mb-5"><IoCloseSharp/></button>
             <a onClick={closeHandler} href="/admin/orders" className="hover:bg-white hover:text-blue-500 py-2 pr-1">سفارشات</a>
             <a onClick={closeHandler} href="/admin/inventory" className="hover:bg-white hover:text-blue-500 py-2 pr-1">موجودی</a>

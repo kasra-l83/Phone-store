@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import { ToastifyProvider } from "@/providers/toastify.provider";
 import { TanstackProvider } from "@/providers/tanstak.provider";
 import { QueryClintProvider } from "@/providers/queryclient.provider";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "پلی مدا",
@@ -24,6 +25,7 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
             </TanstackProvider>
           </ToastifyProvider>
         </div>
+        <Footer/>
       </body>
     </html>
   )
