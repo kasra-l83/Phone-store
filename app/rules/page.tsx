@@ -4,7 +4,7 @@ export const metadata: Metadata= {
   title: "قوانین و مقررات"
 }
 
-const Rules= () =>{
+export default function Rules() {
   return (
     <section>
       <div className="flex justify-center"><h2 className="text-4xl font-bold border-b-4 border-b-blue-500 pb-3 mb-5">قوانین و مقررات</h2></div>
@@ -20,4 +20,3 @@ const Rules= () =>{
     </section>
   )
 }
-export default Rules;

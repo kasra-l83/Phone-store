@@ -10,7 +10,7 @@ export const metadata: Metadata= {
   title: "تماس با ما"
 }
 
-const Contact= () =>{
+export default function Contact() {
   return (
     <section className="flex flex-col items-center gap-y-5">
       <div className="flex items-center gap-x-5">
@@ -40,4 +40,3 @@ const Contact= () =>{
     </section>
   )
 }
-export default Contact;

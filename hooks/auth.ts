@@ -2,23 +2,22 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-const useAuth = () => {
-    const router = useRouter();
-    const token = localStorage.getItem("token");
+export default function useAuth() {
+    const router= useRouter();
+    const token= localStorage.getItem("token");
 
-    useEffect(() => {
+    useEffect(() =>{
         if (!token) {
+            toast.error("Your are not autorize")
             router.push("/");
-        } else {
-            const tokenPayload = JSON.parse(atob(token.split('.')[1]));
-            const isTokenExpired = tokenPayload.exp * 1000 < Date.now() || (Date.now() - tokenPayload.iat * 1000) > 15 * 60 * 1000;
-            if (isTokenExpired) {
+        }else {
+            const tokenPayload= JSON.parse(atob(token.split('.')[1]));
+            const tokenExpired= tokenPayload.exp * 1000 < Date.now() || (Date.now() - tokenPayload.iat * 1000) > 15 * 60 * 1000;
+            if (tokenExpired) {
                 localStorage.removeItem("token");
-                toast.error("Your token expired")
+                toast.error("Your token expired");
                 router.push("/");
             }
         }
     }, [router, token]);
 }
-
-export default useAuth;

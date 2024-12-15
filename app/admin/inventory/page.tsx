@@ -15,12 +15,13 @@ export default function Inventory() {
         queryKey: ["products", page],
         queryFn: () => fetchProductList(page, 5)
     })
+
     const next= () =>{
         if(page< products.data.total_pages){
             setPage(page+ 1)
         }
     }
-    const before= () =>{
+    const prev= () =>{
         if(page> 1){
             setPage(page- 1)
         }
@@ -31,7 +32,7 @@ export default function Inventory() {
             <div className="mb-5 flex justify-between">
                 <h2 className="sm:text-3xl text-base font-semibold">مدیریت موجودی و قیمت ها</h2>
                 <span className="flex gap-x-2">
-                    <button onClick={before} className={`${page===1 ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>قبلی</button>
+                    <button onClick={prev} className={`${page===1 ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>قبلی</button>
                     <button onClick={next} className={`${page===products.data?.total_pages ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>بعدی</button>
                 </span>
             </div>
@@ -39,9 +40,9 @@ export default function Inventory() {
                 <table className="w-full text-right text-gray-500">
                     <thead className="text-gray-700">
                         <tr>
-                            <th scope="col" className="px-6 py-3 bg-gray-50">کالا</th>
-                            <th scope="col" className="px-6 py-3">قیمت</th>
-                            <th scope="col" className="px-6 py-3 bg-gray-50">موجودی</th>
+                            <th className="px-6 py-3 bg-gray-50">کالا</th>
+                            <th className="px-6 py-3">قیمت</th>
+                            <th className="px-6 py-3 bg-gray-50">موجودی</th>
                         </tr>
                     </thead>
                     <tbody>

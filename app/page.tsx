@@ -2,6 +2,7 @@
 
 import { fetchProductList } from '@/apis/products.api';
 import { ProductCard, ProductCardd, ProductCardSkeleton } from '@/components/ProductCard';
+import Slider from '@/components/slider';
 import { IProduct } from '@/types/product';
 import Image from 'next/image'
 import { Suspense } from 'react';
@@ -25,9 +26,7 @@ export default function Home() {
   
   return (
     <div className='flex flex-col gap-y-5'>
-      <div className="flex justify-center">
-        <Image src="/img/baner.png" alt='Baner' width={1224} height={540}/>
-      </div>
+      <Slider/>
       <section className='mb-10 flex flex-col gap-y-3'>
         <span className='flex justify-between'>
           <h3 className='text-3xl font-bold'>آیفون</h3>

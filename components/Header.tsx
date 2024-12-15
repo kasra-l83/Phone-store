@@ -53,7 +53,7 @@ export default function Header() {
             <hr/>
         </header>
         {open && !session && (
-            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[50%] absolute top-0 z-20">
+            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[100%] absolute top-0 z-20">
                 <span className="flex items-center justify-between mb-5 px-2">
                     <h6>منو</h6>
                     <button onClick={closeHandler} className="text-3xl"><IoCloseSharp/></button>
@@ -66,7 +66,7 @@ export default function Header() {
         </div>
         )}
         {open && session && (
-            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[50%] absolute top-0 z-20">
+            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[100%] absolute top-0 z-20">
                 <button onClick={closeHandler} className="text-3xl mb-5"><IoCloseSharp/></button>
             <a onClick={closeHandler} href="/admin/orders" className="hover:bg-white hover:text-blue-500 py-2 pr-1">سفارشات</a>
             <a onClick={closeHandler} href="/admin/inventory" className="hover:bg-white hover:text-blue-500 py-2 pr-1">موجودی</a>

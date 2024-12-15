@@ -1,35 +1,58 @@
 "use client"
 
-import { BiSolidPhoneCall } from "react-icons/bi";
-import { FaLocationDot, FaTelegram } from "react-icons/fa6";
-import { FaYoutube } from "react-icons/fa";
-import { AiFillInstagram } from "react-icons/ai";
+import Image from 'next/image'
+import { IoIosArrowUp } from "react-icons/io";
 
 export default function Footer() {
-    const session= localStorage.getItem("token");
+    const scrollToTop= () =>{
+        window.scrollTo({
+            top: 0
+        })
+    }
 
     return (
-        <footer className="sm:grid md:grid-cols-3 gap-y-3 p-5">
-            <div className={`border-l-2 flex flex-col gap-y-5 ${session? "hidden" : ""}`}>
-                <span className="flex gap-x-2 text-3xl font-bold">
-                    <FaLocationDot className="text-blue-500"/>
-                    <h2>آدرس فروشگاه</h2>
+        <footer className='pt-5 border-t-2'>
+            <div className='flex justify-between items-center mb-1 px-5'>
+                <span className="flex items-center gap-x-2">
+                    <Image src="/icon/logo.png" alt='Logo' width={40} height={40}/>
+                    <h2 className="text-2xl text-blue-900 font-semibold">
+                        PLAY<span className="text-yellow-700">MEDA</span>
+                    </h2>
                 </span>
-                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
-                <span className="flex gap-x-2 items-center mt-5 sm:hidden lg:flex">
-                    <BiSolidPhoneCall className="text-2xl"/>
-                    <h2>شماره تماس: 5874236-021</h2>
-                </span>
+                <button onClick={scrollToTop} className='text-gray-400 text-sm font-semibold px-2 border-2 flex gap-x-2 items-center rounded-lg h-10 hover:text-gray-500 hover:border-gray-500'>
+                    بازگشت به بالا<IoIosArrowUp/>
+                </button>
             </div>
-            <div className={`flex flex-col items-center gap-5 sm:gap-y-16 ${session? "hidden" : ""}`}>
-                <h2 className="text-3xl font-bold">ما را دنبال کنید</h2>
-                <span className="flex gap-x-3 text-4xl text-blue-500">
-                    <FaYoutube className="cursor-pointer hover:text-blue-700"/>
-                    <AiFillInstagram className="cursor-pointer hover:text-blue-700"/>
-                    <FaTelegram className="cursor-pointer hover:text-blue-700"/>
-                </span>
+            <span className='flex mb-10 px-5'>
+                <p className='text-sm pl-3'>تلفن پشتیبانی ۶۱۹۳۰۰۰۰ - ۰۲۱</p>
+                <p className='text-sm border-x-2 px-3'>۰۲۱-۹۱۰۰۰۱۰۰</p>
+                <p className='text-sm pr-3'>۷ روز هفته، ۲۴ ساعته پاسخگوی شما هستیم</p>
+            </span>
+            <span className='flex justify-around mb-10 px-5'>
+                <div className='flex flex-col items-center'>
+                    <Image src="/icon/express.png" alt='Express' width={56} height={56}/>
+                    <h6 className='text-sm'>امکان تحویل اکپرس</h6>
+                </div>
+                <div className='flex flex-col items-center'>
+                    <Image src="/icon/cash.svg" alt='Cash' width={56} height={56}/>
+                    <h6 className='text-sm'>امکان پرداخت در محل</h6>
+                </div>
+                <div className='flex flex-col items-center'>
+                    <Image src="/icon/support.png" alt='Support' width={56} height={56}/>
+                    <h6 className='text-sm'>7 روز هفته، 24 ساعت</h6>
+                </div>
+                <div className='flex flex-col items-center'>
+                    <Image src="/icon/return.png" alt='Return' width={56} height={56}/>
+                    <h6 className='text-sm'>هفت روز ضمانت بازگشت کالا</h6>
+                </div>
+                <div className='flex flex-col items-center'>
+                    <Image src="/icon/original.png" alt='Original' width={56} height={56}/>
+                    <h6 className='text-sm'>ضمانت اصل بودن کالا</h6>
+                </div>
+            </span>
+            <div className='text-white bg-black text-sm text-center py-3'>
+                <p>برای استفاده از مطالب وب‌سايت، داشتن «هدف غیرتجاری» و ذکر «منبع» کافیست. تمام حقوق اين وب‌سايت نیز برای کسری لطیفی است.</p>
             </div>
-            <img src="/img/louded.png" className={`h-52 w-full cursor-pointer ${session? "hidden" : "hidden md:block"}`}/>
         </footer>
     )
 }
