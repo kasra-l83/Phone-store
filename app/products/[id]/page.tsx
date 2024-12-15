@@ -3,47 +3,75 @@ import { notFound } from "next/navigation";
 import Image from 'next/image'
 import { SiAdguard } from "react-icons/si";
 import { formatPrice } from "@/utils/global";
+import SpanSelector from "@/components/color";
+import { FaChevronLeft } from "react-icons/fa";
+import { TfiTruck } from "react-icons/tfi";
+import { PiCoinVerticalFill } from "react-icons/pi";
 
-const BlogPage: React.FC<IPageParams<{ id: string }>> = async ({ params }) => {
+const ProductPage: React.FC<IPageParams<{ id: string }>>= async ({ params }) =>{
   const id= (await params).id;
   const product= await fetchProductById(id)
   const subCategory= await fetchSubCategoryById(product.subcategory._id);
   if(!id || !product) return notFound();
 
   return (
-    <section className="flex flex-col gap-10">
-    <div className="flex flex-wrap justify-center sm:justify-between gap-y-3">
-      <Image src={`http://localhost:8000/images/products/images/${product.images[0]}`} alt={product.name} width={250} height={250}/>
-      <div className="flex flex-col justify-between">
+    <section className="flex flex-nowrap">
+      <Image src={`http://localhost:8000/images/products/images/${product.images[0]}`} alt={product.name} width={500} height={500}/>
+      <div className="w-full pl-5 flex flex-col justify-between">
+        <h4 className="text-sm text-blue-500 font-bold">{subCategory.category.name} / {subCategory.name}</h4>
         <h2 className="text-lg font-medium">گوشی موبایل {product.name}</h2>
-        <h4 className="text-base text-gray-500">برند : {product.brand}</h4>
-        <h4 className="text-base text-gray-500">مدل : {subCategory.name}</h4>
-        <h4 className="text-base text-gray-500">حجم حافظه : 12 گیگابایت</h4>
-        <h4 className="text-base text-gray-500">کیفیت دوربین : 42 مگاپیکسل</h4>
-        <h4 className="text-base font-medium">موجودی محصول : <span className={product.quantity> 0 ? "text-blue-500" : "text-red-500"}>{product.quantity> 0 ? "موجود" : "ناموجود"}</span></h4>
+        <h4 className="text-base font-semibold">رنگ</h4>
+        <SpanSelector/>
+        <h4 className="text-base font-semibold">بیمه</h4>
+        <div className="border rounded-lg h-16 w-full flex">
+          <div className="w-[7%] border-l flex justify-center items-center">
+            <input type="checkbox" className="size-4 cursor-pointer"/>
+          </div>
+          <div className="flex flex-col justify-around p-2 w-full">
+            <p className="text-xs font-bold">بیمه تجهیزات دیجیتال - بیمه سامان</p>
+            <span className="flex gap-x-1 items-center relative">
+              <div className="rounded-full bg-blue-500 text-sm px-1 text-white">50%</div>
+              <p className="line-through text-gray-300 text-sm">2,000,000</p>
+              <p className="text-base">1,000,000 تومان</p>
+              <button className="absolute left-0 text-sm font-bold text-blue-500 hover:text-blue-700 flex gap-x-1 items-center">جزییات<FaChevronLeft/></button>
+            </span>
+          </div>
+        </div>
+        <h4 className="text-base font-semibold">ویژگی ها</h4>
+        <span className="flex text-sm gap-x-2">
+          <div className="bg-gray-100 rounded-lg w-full p-2 font-bold">
+            <p className="text-gray-400">برند</p>
+            <p>{product.brand}</p>
+          </div>
+          <div className="bg-gray-100 rounded-lg w-full p-2 font-bold">
+            <p className="text-gray-400">حجم حافظه</p>
+            <p>64 گیگابایت</p>
+          </div>
+          <div className="bg-gray-100 rounded-lg w-full p-2 font-bold">
+            <p className="text-gray-400">رزولوشن دوربین اصلی</p>
+            <p>42 مگاپیکسل</p>
+          </div>
+        </span>
       </div>
-      <div className="flex flex-col gap-y-10">
-        <span className="flex gap-x-3 items-center">
+      <div className="flex flex-col justify-around border bg-gray-100 px-4 rounded-lg mt-20">
+        <h4 className="text-lg text-left font-semibold">{product.quantity > 0 ? `${formatPrice(product.price)} تومان` : "ناموجود"}</h4>
+        <button disabled={product.quantity<= 0} className={`py-2 text-sm font-bold text-white rounded-lg w-60 ${product.quantity> 0 ? "bg-blue-500 hover:bg-blue-700" : "bg-gray-300"}`}>افزودن به سبد</button>
+        <p className="flex gap-x-3 items-center">
           <SiAdguard className="text-xl text-blue-500"/>
-          گارانتی 36 ماهه
-        </span>
-        <hr />
-        <h4 className="text-base text-blue-700 font-semibold flex justify-center">{formatPrice(product.price)} تومان</h4>
-        <span className="flex gap-x-2 justify-center">
-          <button className="border border-blue-500 rounded-full text-xl size-6 flex justify-center items-center">+</button>
-          1
-          <button className="border border-blue-500 rounded-full text-xl size-6 flex justify-center items-center">-</button>
-        </span>
-        <button disabled={product.quantity> 0} className="py-2 bg-blue-500 text-white rounded-lg w-60 hover:bg-blue-700">افزودن به سبد</button>
+          گارانتی 18 ماهه
+        </p>
+        <hr/>
+        <p className="text-base flex gap-x-2 items-center">
+          <TfiTruck className="text-xl text-blue-500"/>
+          ارسال از 1 روز کاری دیگر
+        </p>
+        <hr/>
+        <p className="text-base flex gap-x-2">
+          <PiCoinVerticalFill className="text-xl text-yellow-500"/>
+          150 امتیاز از این خرید
+        </p>
       </div>
-    </div>
-    <span className="flex justify-center flex-wrap gap-x-20">
-      <span className="flex gap-x-2 items-center text-xs text-gray-500"><Image src="/icon/express.png" alt="Express" width={50} height={50}/>امکان تحویل اکسپرس</span>
-      <span className="flex gap-x-2 items-center text-xs text-gray-500"><Image src="/icon/support.png" alt="Support" width={50} height={50}/>پشتیبانی ۲۴ ساعته</span>
-      <span className="flex gap-x-2 items-center text-xs text-gray-500"><Image src="/icon/return.png" alt="Return" width={50} height={50}/>هفت روز ضمانت بازگشت کالا</span>
-      <span className="flex gap-x-2 items-center text-xs text-gray-500"><Image src="/icon/original.png" alt="Original" width={50} height={50}/>ضمانت اصل بون کالا</span>
-    </span>
     </section>
   )
 }
-export default BlogPage;
+export default ProductPage;

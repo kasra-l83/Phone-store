@@ -1,9 +1,10 @@
 import Image from 'next/image'
-import { FaRegHeart } from "react-icons/fa6";
 import { formatPrice } from "../utils/global";
+import { TfiTruck } from "react-icons/tfi";
+import { FaStar } from "react-icons/fa6";
 import Link from "next/link";
 
-export const ProductCardSkeleton: React.FC<any>= () =>{
+export const ProductCardSkeleton: React.FC= () =>{
   return (
     <div className="h-72 w-60 rounded-lg bg-gray-300">
       <div className="h-[80%] rounded-t-lg flex justify-center items-center"><div className='size-[160px] bg-gray-500'></div></div>
@@ -14,27 +15,34 @@ export const ProductCardSkeleton: React.FC<any>= () =>{
     </div>
   )
 }
-export const ProductCard: React.FC<any>= ({image, name, price, id}) =>{
+export const ProductCard: React.FC<any>= ({image, name, price, id, quantity}) =>{
   return (
-    <Link className="h-72 w-60 rounded-lg relative" href={`products/${id}`}>
-      <div className='absolute size-9 rounded-full border-2 border-blue-500 left-5 top-5 bg-blue-200 z-10 flex justify-center items-center text-xl text-blue-500'><FaRegHeart /></div>
-      <div className="h-[80%] bg-blue-200 rounded-t-lg flex justify-center items-center"><Image src={`http://localhost:8000/images/products/images/${image}`} alt={name} width={160} height={160}/></div>
-      <div className="h-[20%] bg-blue-600 text-white px-2 py-1 rounded-b-lg">
-        <h4>{name}</h4>
-        <p className="text-left">{formatPrice(price)} تومان</p>
+    <Link className="h-96 hover:shadow-2xl w-[216px] px-3 flex flex-col gap-y-4 border-l" href={`products/${id}`}>
+      <div className='flex justify-center'><Image src={`http://localhost:8000/images/products/images/${image}`} alt={name} width={160} height={160}/></div>
+      <div className='gap-1 p-1 rounded-full items-center text-xs bg-gray-100 w-24 flex'>
+        <TfiTruck className='text-blue-500 text-base'/>
+        ارسال رایگان
       </div>
-    </Link>
-  )
-}
-export const ProductCardd: React.FC<any>= ({image, name, id}) =>{
-  return (
-    <Link className="h-72 w-60 rounded-lg relative" href={`products/${id}`}>
-      <div className='absolute size-9 rounded-full border-2 border-orange-500 left-5 top-5 bg-orange-200 z-10 flex justify-center items-center text-xl text-orange-500'><FaRegHeart /></div>
-      <div className="h-[80%] bg-orange-200 rounded-t-lg flex justify-center items-center"><Image src={`http://localhost:8000/images/products/images/${image}`} alt={name} width={160} height={160}/></div>
-      <div className="h-[20%] bg-orange-600 text-white px-2 py-1 rounded-b-lg">
-        <h4>{name}</h4>
-        <p className="text-left">ناموجود</p>
-      </div>
+      <h4 className='line-clamp-1'>{name}</h4>
+      <span className='flex justify-end items-center gap-x-2'>
+        {
+          price<=20000000 ? 1 :
+          20000000< price && price<= 40000000 ? 3 :
+          5
+        }
+        <FaStar className='text-orange-500'/>
+      </span>
+      <span className='flex justify-end gap-x-8 items-center'>
+        <div className={`bg-blue-500 text-white inline-flex px-1 rounded-full ${price> 35000000 && quantity> 0 ? "" : "hidden"}`}>10%</div>
+        <p className={`${quantity> 0 ? "" : "text-gray-300"}`}>
+          {
+            price> 35000000 && quantity> 0 ? `${formatPrice(price* 9/ 10)} تومان` :
+            0< price && price<= 35000000 && quantity> 0 ? `${formatPrice(price)} تومان` :
+            "ناموجود"
+          }
+        </p>
+      </span>
+      <p className={`line-through text-left text-base text-gray-300 ${price> 35000000 && quantity> 0 ? "" : "hidden"}`}>{formatPrice(price)}</p>
     </Link>
   )
 }
