@@ -36,7 +36,7 @@ export default function Inventory() {
                     <button onClick={next} className={`${page===products.data?.total_pages ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>بعدی</button>
                 </span>
             </div>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg min-h-[292px]">
                 <table className="w-full text-right text-gray-500">
                     <thead className="text-gray-700">
                         <tr>

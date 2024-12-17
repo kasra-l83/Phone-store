@@ -7,7 +7,7 @@ export const urls= {
     byId: (id: string) => `/categories/${id}`
   },
   subCategory: {
-    list: "/subcategories",
+    list: "/subcategories?limit=total",
     byId: (id: string) => `/subcategories/${id}`,
   },
   user: {
@@ -18,6 +18,7 @@ export const urls= {
   product: {
     list: (page: number, perPage: number) => `/products?page=${page}&limit=${perPage}`,
     byId: (id: string) => `/products/${id}`,
-    delete:(id: string) => `/products/${id}`
+    delete:(id: string) => `/products/${id}`,
+    create: "/products"
   }
 }

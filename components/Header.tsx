@@ -12,7 +12,7 @@ import { FaPencilRuler } from "react-icons/fa";
 import { FaPhoneFlip } from "react-icons/fa6";
 
 export default function Header() {
-    const [open, setOpen]= useState(false);
+    const [open, setOpen]= useState<boolean>(false);
     const { push }= useRouter();
 
     const session= localStorage.getItem("token");

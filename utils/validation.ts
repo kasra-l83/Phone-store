@@ -30,3 +30,58 @@ export const authSchema = z.object({
   username: z.string().min(5, "نام کاربری باید حداقل 5 حرف باشد"),
   password: z.string().min(8, "رمز عبور باید حداقل 8 حرف باشد")
 })
+
+const validSize= 100;
+const validImageTypes= ["image/png", "image/jpeg", "image/jpg"];
+export const imageValidator = (file: File | undefined, required = true) => {
+  if (!required && !file) return undefined;
+  if (!file) return "Image is required";
+  if (!validImageTypes.includes(file.type)) {
+    return `Image type must be ${validImageTypes.join(", ")}`;
+  }
+  if (validSize * Math.pow(10, 6) < file.size) {
+    return `Image size must be lower then ${validSize}MB`;
+  }
+};
+
+export const createProductSchema = z.object({
+  category: z.string(),
+  subcategory: z.string(),
+  name: z.string().min(5),
+  price: z.string().refine(
+    (value) => /[1-9]/g.test(value), "قیمت باید فقد شامل اعداد باشد"
+  ),
+  quantity: z.string().refine(
+    (value) => /[1-9]/g.test(value), "تعداد باید فقد شامل اعداد باشد"
+  ),
+  brand: z.string().min(3),
+  description: z.string().min(10),
+})
+
+export type createProductSchemaType = z.infer<typeof createProductSchema>;
+
+export const createProductSchemaClient = z.object({
+  category: z.string(),
+  subcategory: z.string(),
+  name: z.string().min(5),
+  price: z.string().refine(
+    (value) => /[1-9]/g.test(value), "قیمت باید فقد شامل اعداد باشد"
+  ),
+  quantity: z.string().refine(
+    (value) => /[1-9]/g.test(value), "تعداد باید فقد شامل اعداد باشد"
+  ),
+  brand: z.string().min(3),
+  description: z.string().min(10),
+  images: z
+    .any()
+    .refine((file) => {
+      return validImageTypes.includes(file?.type);
+    }, `Thumbnail type must be ${validImageTypes.join(", ")}`)
+    .refine((file) => {
+      return validSize * Math.pow(10, 6) >= Number(file?.size || Infinity);
+    }, `Thumbnail size must be lower then ${validSize}MB`),
+})
+
+export type createProductSchemaClientType = createProductSchemaType & {
+  images: File;
+}

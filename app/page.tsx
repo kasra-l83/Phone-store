@@ -69,7 +69,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <section className='flex justify-around'>
+      <section className='flex justify-around flex-wrap gap-y-5'>
         <CategoryCard/>
         <div className="size-36 bg-gray-100 rounded-2xl flex flex-col items-center justify-center px-5 cursor-pointer">
           <p className='font-black text-xl'>...</p>

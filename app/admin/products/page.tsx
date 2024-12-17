@@ -8,10 +8,12 @@ import Image from 'next/image'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCategoryList, fetchProductList, fetchSubCategoryList, deleteProduct } from "@/apis/products.api";
 import useAuth from "@/hooks/auth";
+import { CreateBlogForm } from "@/components/CreateProduct";
 
 export default function Orders() {
     useAuth();
     const [page, setPage]= useState<number>(1);
+    const [open, setOpen]= useState<boolean>(false);
     const queryClient= useQueryClient();
 
     const products= useQuery({
@@ -57,11 +59,11 @@ export default function Orders() {
     }
 
     return (
-        <>
+        <div className="relative">
             <div className="mb-5 flex justify-between">
                 <h2 className="sm:text-3xl text-base font-semibold">مدیریت کالا ها</h2>
                 <span className="flex gap-x-2">
-                    <button className="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded">افزودن کالا</button>
+                    <button onClick={() => setOpen(true)} className="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded">افزودن کالا</button>
                     <button onClick={before} className={`${page===1 ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>قبلی</button>
                     <button onClick={next} className={`${page===products.data?.total_pages ? "hidden" : ""} bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded`}>بعدی</button>
                 </span>
@@ -82,7 +84,7 @@ export default function Orders() {
                                 <th className="p-4"><Image src={`http://localhost:8000/images/products/images/${product.images[0]}`} alt={product.name} width={190} height={252}/></th>
                                 <th className="px-6 py-4 text-gray-900 text-nowrap">{product.name}</th>
                                 <th className="px-6 py-4 text-gray-900">{getCategoryById(product.category)} / {getSubCategoryById(product.subcategory)}</th>
-                                <th className="flex gap-4 px-6 py-4 text-gray-900 h-[160px]">
+                                <th className="flex gap-4 px-6 py-4 text-gray-900 h-[215px]">
                                     <button className="text-blue-500 hover:text-blue-700">ویرایش</button>
                                     <button onClick={() => deleteHandler(product._id)} className="text-red-500 hover:text-red-700">حذف</button>
                                 </th>
@@ -91,6 +93,11 @@ export default function Orders() {
                     </tbody>
                 </table>
             </div>
-        </>
+            {
+                open && (<div className="absolute top-0 z-30 bg-white min-w-96 right-[35%]">
+                    <CreateBlogForm/>
+                </div>)
+            }
+        </div>
     )
 }

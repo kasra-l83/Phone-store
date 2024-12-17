@@ -62,7 +62,7 @@ export default function Orders() {
                     سفارشات تحویل نشده
                 </label>
             </div>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg min-h-[332px]">
                 <table className="w-full text-right text-gray-500">
                     <thead className="text-gray-700">
                         <tr>

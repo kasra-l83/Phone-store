@@ -4,22 +4,27 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 export interface TodoListState{
   list: any[]
 }
-export const initialState: TodoListState= {
-  list: [],
+export const initialState= {
+  list: []
 }
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState,
+  initialState: {
+    value: 0
+  },
   reducers: {
-    addTodo: (state, action: PayloadAction<string>) =>{
-      state.list.push({ title: action.payload});
+    addTodo: (state) =>{
+      // state.list.push({ title: action.payload});
+      state.value+= 1
     },
-    removeTodo: (state, action: PayloadAction<string>) =>{
-      state.list= state.list.filter((el: any) => el.title !== action.payload);
+    removeTodo: (state) =>{
+      // state.list= state.list.filter((el: any) => el.title !== action.payload);
+      state.value-= 1
     },
     clearTodo: (state) =>{
-      state.list= []
+      // state.list= []
+      state.value= 0
     }
   }
 })

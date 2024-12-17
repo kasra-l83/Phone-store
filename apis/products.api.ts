@@ -36,3 +36,12 @@ export const deleteProduct= async (id: string) =>{
   const response= await client.delete(urls.product.delete(id))
   return response.data
 }
+export const createProduct= async (data: FormData) =>{
+  const client= generateClient();
+  const response= await client.post(urls.product.create, data, {
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem('token')}`
+    }
+  })
+  return response.data;
+}
