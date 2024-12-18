@@ -33,7 +33,7 @@ export const fetchSubCategoryById= async (id: string) =>{
 }
 export const deleteProduct= async (id: string) =>{
   const client= generateClient();
-  const response= await client.delete(urls.product.delete(id))
+  const response= await client.delete(urls.product.byId(id))
   return response.data
 }
 export const createProduct= async (data: FormData) =>{
@@ -44,4 +44,9 @@ export const createProduct= async (data: FormData) =>{
     }
   })
   return response.data;
+}
+export const editProduct= async (id: string) =>{
+  const client= generateClient();
+  const response= await client.patch(urls.product.byId(id))
+  return response.data
 }

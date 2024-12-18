@@ -5,21 +5,26 @@ import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
-
 import { Input } from "../components/Input";
 import { Textarea } from "./Textare";
 import { Thumbnail } from "../components/Thumbnail";
 import { errorHandler } from "../utils/errorHandler";
-import {
-  createProductSchemaClient,
-  createProductSchemaClientType,
-} from "../utils/validation";
-import { createProduct } from "../apis/products.api";
+import { createProductSchemaClient, createProductSchemaClientType } from "../utils/validation";
+import { createProduct, fetchCategoryList, fetchSubCategoryList } from "../apis/products.api";
+import { useQuery } from "react-query";
+import { ICategory, ISubCategory } from "@/types/product";
 
-export const CreateBlogForm: React.FC = () => {
-  const [abortController, setAbortController] =
-    React.useState<AbortController>();
-  const createBlogForm = useForm<createProductSchemaClientType>({
+export const CreateProductForm: React.FC = () => {
+  const [abortController, setAbortController]= React.useState<AbortController>();
+  const categories= useQuery({
+    queryKey: ["categories"],
+    queryFn: () => fetchCategoryList()
+})
+  const subCategories= useQuery({
+      queryKey: ["subcategory"],
+      queryFn: () => fetchSubCategoryList()
+  })
+  const createProductForm = useForm<createProductSchemaClientType>({
     mode: "all",
     resolver: zodResolver(createProductSchemaClient),
     defaultValues: {
@@ -30,11 +35,11 @@ export const CreateBlogForm: React.FC = () => {
       quantity: '',
       description: '',
       name: '',
-      images: undefined,
+      images: undefined
     }
   })
 
-  const onSubmit = async (data: createProductSchemaClientType) => {
+  const onSubmit = async (data: createProductSchemaClientType) =>{
     try {
       const formData = new FormData();
       formData.set("category", data.category);
@@ -55,101 +60,52 @@ export const CreateBlogForm: React.FC = () => {
   }
 
   return (
-    <form
-      onSubmit={createBlogForm.handleSubmit(onSubmit)}
-      className="space-y-4 mt-8"
-    >
-      <Thumbnail name="images" control={createBlogForm.control} />
-      <Controller
-        name="category"
-        control={createBlogForm.control}
-        render={({ field, fieldState: { error } }) => (
-          <Input
-            {...field}
-            error={error?.message}
-            label="category"
-            placeholder="category"
-          />
+    <form onSubmit={createProductForm.handleSubmit(onSubmit)} className="space-y-4 w-full bg-white sm:w-[500px] p-3">
+      <Thumbnail name="images" control={createProductForm.control} />
+      <Controller name="name" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
+        (
+          <Input {...field} error={error?.message} label="اسم"/>
         )}
       />
-      <Controller
-        name="subcategory"
-        control={createBlogForm.control}
-        render={({ field, fieldState: { error } }) => (
-          <Input
-            {...field}
-            error={error?.message}
-            label="subcategory"
-            placeholder="subcategory"
-          />
+      <Controller name="category" control={createProductForm.control} render={() =>
+        (
+          <select>
+            {categories.data?.map((category: ICategory) =>(
+              <option key={category._id} value={category._id}>{category.name}</option>
+            ))}
+          </select>
         )}
       />
-      <Controller
-        name="brand"
-        control={createBlogForm.control}
-        render={({ field, fieldState: { error } }) => (
-          <Input
-            {...field}
-            error={error?.message}
-            label="brand"
-            placeholder="brand"
-          />
+      <Controller name="subcategory" control={createProductForm.control} render={() =>
+        (
+          <select>
+            {subCategories.data?.map((subCategory: ISubCategory) =>(
+              <option key={subCategory._id} value={subCategory._id}>{subCategory.name}</option>
+            ))}
+          </select>
         )}
       />
-      <Controller
-        name="price"
-        control={createBlogForm.control}
-        render={({ field, fieldState: { error } }) => (
-          <Input
-            {...field}
-            error={error?.message}
-            label="price"
-            placeholder="price"
-          />
+      <Controller name="brand" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
+        (
+          <Input {...field} error={error?.message} label="برند"/>
         )}
       />
-      <Controller
-        name="quantity"
-        control={createBlogForm.control}
-        render={({ field, fieldState: { error } }) => (
-          <Input
-            {...field}
-            error={error?.message}
-            label="quantity"
-            placeholder="quantity"
-          />
+      <Controller name="price" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
+        (
+          <Input {...field} error={error?.message} label="قیمت"/>
         )}
       />
-      <Controller
-        name="description"
-        control={createBlogForm.control}
-        render={({ field, fieldState: { error } }) => (
-          <Textarea
-            {...field}
-            error={error?.message}
-            label="description"
-            placeholder="description"
-          />
+      <Controller name="quantity" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
+        (
+          <Input {...field} error={error?.message} label="موجودی"/>
         )}
       />
-      <Controller
-        name="name"
-        control={createBlogForm.control}
-        render={({ field, fieldState: { error } }) => (
-          <Input
-            {...field}
-            error={error?.message}
-            label="name"
-            placeholder="name"
-          />
+      <Controller name="description" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
+        (
+          <Textarea {...field} error={error?.message} label="توضیحات"/>
         )}
       />
-      <button
-        type="submit"
-        className="text-white text-sm rounded-md font-semibold py-2 px-1 w-full bg-slate-800 hover:bg-slate-700 disabled:bg-slate-500"
-      >
-        Submit
-      </button>
+      <button type="submit" className="text-white text-sm rounded-md font-semibold py-2 px-1 w-full bg-blue-500 hover:bg-blue-700 disabled:bg-gray-500">Submit</button>
     </form>
   )
 }

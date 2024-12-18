@@ -1,30 +1,25 @@
 import { createSlice} from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export interface TodoListState{
-  list: any[]
-}
 export const initialState= {
-  list: []
+  list: typeof window !== "undefined" ? JSON.parse(localStorage.getItem("cart")) || [] : []
 }
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: {
-    value: 0
-  },
+  initialState,
   reducers: {
-    addTodo: (state) =>{
-      // state.list.push({ title: action.payload});
-      state.value+= 1
+    addTodo: (state, action: PayloadAction) =>{
+      state.list.push({ name: action.payload.name, price: action.payload.price, image: action.payload.image});
+      localStorage.setItem("cart", JSON.stringify(state.list));
     },
-    removeTodo: (state) =>{
-      // state.list= state.list.filter((el: any) => el.title !== action.payload);
-      state.value-= 1
+    removeTodo: (state, action: PayloadAction) =>{
+      state.list= state.list.filter((el) => el.name !== action.payload);
+      localStorage.setItem("cart", JSON.stringify(state.list));
     },
     clearTodo: (state) =>{
-      // state.list= []
-      state.value= 0
+      state.list= []
+      localStorage.removeItem("cart")
     }
   }
 })

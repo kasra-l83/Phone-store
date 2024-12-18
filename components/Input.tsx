@@ -19,7 +19,7 @@ export const Input: React.FC<IInputProps> = ({label, error, ...props}) =>{
           className= {`w-full border rounded-lg h-10 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${error? "border-red-500 ring-1 ring-red-500" : ""}`}
         />
       </span>
-      {error && <p className="text-[red] text-sm">{error}</p>}
+      {error && <p className="text-red-500 text-sm">{error}</p>}
     </div>
   )
 }

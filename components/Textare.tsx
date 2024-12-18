@@ -15,19 +15,19 @@ export const Textarea: React.FC<IInput> = ({
   ...props
 }) => {
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col">
       {!!label && (
-        <label className="text-slate-500 text-xs capitalize font-semibold">
+        <label className="text-slate-500 text-xs font-semibold">
           {label}
         </label>
       )}
       <textarea
         type="text"
-        className={`border  rounded-md py-1 px-2 hover:outline focus:outline placeholder:text-xs placeholder:font-medium ${error ? "border-red-400 outline-red-400 placeholder:text-red-400" : "border-slate-300 outline-slate-200 placeholder:text-slate-400"}`}
+        className= {`w-full border rounded-lg h-10 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${error? "border-red-500 ring-1 ring-red-500" : ""}`}
         {...props}
       />
       {!!error && (
-        <p className="text-red-400 text-xs font-semibold capitalize">{error}</p>
+        <p className="text-red-500 text-sm">{error}</p>
       )}
     </div>
   )

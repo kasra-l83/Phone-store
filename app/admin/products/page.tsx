@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCategoryList, fetchProductList, fetchSubCategoryList, deleteProduct } from "@/apis/products.api";
 import useAuth from "@/hooks/auth";
-import { CreateBlogForm } from "@/components/CreateProduct";
+import { CreateProductForm } from "@/components/CreateProduct";
 
 export default function Orders() {
     useAuth();
@@ -94,8 +94,8 @@ export default function Orders() {
                 </table>
             </div>
             {
-                open && (<div className="absolute top-0 z-30 bg-white min-w-96 right-[35%]">
-                    <CreateBlogForm/>
+                open && (<div className="absolute top-0 z-30 w-full sm:right-10">
+                    <CreateProductForm/>
                 </div>)
             }
         </div>

@@ -10,8 +10,10 @@ import { IoHomeSharp } from "react-icons/io5";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { FaPencilRuler } from "react-icons/fa";
 import { FaPhoneFlip } from "react-icons/fa6";
+import { useAppSelector } from "../redux/hook";
 
 export default function Header() {
+    const todoList= useAppSelector((state) => state.cart);
     const [open, setOpen]= useState<boolean>(false);
     const { push }= useRouter();
 
@@ -44,7 +46,7 @@ export default function Header() {
                 </span>
                 <span className={`flex gap-x-5 ${!session ? "" : "hidden"}`}>
                     <button onClick={click} className="text-blue-500 w-40 py-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 hidden sm:block">ورود یا ثبت نام</button>
-                    <button className="text-xl text-blue-500 p-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 relative"><IoCartOutline/><div className="bg-blue-500 text-white absolute right-[-10px] top-[-10px] rounded-full size-6 flex justify-center items-center">0</div></button>
+                    <button className="text-xl text-blue-500 p-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 relative"><IoCartOutline/><div className={`bg-blue-500 text-white absolute right-[-10px] top-[-10px] rounded-full size-6 justify-center items-center ${todoList.list.length> 0 ? "flex" : "hidden"}`}>{todoList.list.length}</div></button>
                 </span>
                 <button onClick={openHandler} className="p-[10px] bg-blue-500 text-white text-lg rounded-lg sm:hidden">
                     <TiThMenu />

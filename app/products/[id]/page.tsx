@@ -7,6 +7,7 @@ import SpanSelector from "@/components/color";
 import { FaChevronLeft } from "react-icons/fa";
 import { TfiTruck } from "react-icons/tfi";
 import { PiCoinVerticalFill } from "react-icons/pi";
+import { Button } from "@/components/Button";
 
 const ProductPage: React.FC<IPageParams<{ id: string }>>= async ({ params }) =>{
   const id= (await params).id;
@@ -55,7 +56,7 @@ const ProductPage: React.FC<IPageParams<{ id: string }>>= async ({ params }) =>{
       </div>
       <div className="flex flex-col justify-around border bg-gray-100 px-4 rounded-lg mt-20">
         <h4 className="text-lg text-left font-semibold">{product.quantity > 0 ? `${formatPrice(product.price)} تومان` : "ناموجود"}</h4>
-        <button disabled={product.quantity<= 0} className={`py-2 text-sm font-bold text-white rounded-lg w-60 ${product.quantity> 0 ? "bg-blue-500 hover:bg-blue-700" : "bg-gray-300"}`}>افزودن به سبد</button>
+        <Button quantity={product.quantity} name={product.name} price={product.price}/>
         <p className="flex gap-x-3 items-center">
           <SiAdguard className="text-xl text-blue-500"/>
           گارانتی 18 ماهه
