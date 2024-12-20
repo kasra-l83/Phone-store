@@ -1,8 +1,10 @@
+"use client"
+
 import Image from 'next/image'
 import { formatPrice } from "../utils/global";
 import { TfiTruck } from "react-icons/tfi";
 import { FaStar } from "react-icons/fa6";
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 export const ProductCardSkeleton: React.FC= () =>{
   return (
@@ -16,8 +18,10 @@ export const ProductCardSkeleton: React.FC= () =>{
   )
 }
 export const ProductCard: React.FC<any>= ({image, name, price, id, quantity}) =>{
+  const {push}= useRouter();
+
   return (
-    <Link className="h-96 hover:shadow-2xl w-[216px] px-3 flex flex-col gap-y-4 border-l" href={`products/${id}`}>
+    <div onClick={() => push(`products/${id}`)} className="h-96 hover:shadow-2xl w-[216px] px-3 flex flex-col gap-y-4 border-l cursor-pointer">
       <div className='flex justify-center'><Image src={`http://localhost:8000/images/products/images/${image}`} alt={name} width={160} height={160}/></div>
       <div className='gap-1 p-1 rounded-full items-center text-xs bg-gray-100 w-24 flex'>
         <TfiTruck className='text-blue-500 text-base'/>
@@ -43,6 +47,6 @@ export const ProductCard: React.FC<any>= ({image, name, price, id, quantity}) =>
         </p>
       </span>
       <p className={`line-through text-left text-base text-gray-300 ${price> 35000000 && quantity> 0 ? "" : "hidden"}`}>{formatPrice(price)}</p>
-    </Link>
+    </div>
   )
 }

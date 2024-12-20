@@ -5,10 +5,10 @@ import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import Image from 'next/image';
 
 const slider= [
-  '/./img/iphone.jpeg',
-  '/./img/xiaomi.webp',
-  '/./img/samsung.webp',
-  '/./img/honor.webp'
+  '/./img/baner/iphone.jpeg',
+  '/./img/baner/xiaomi.webp',
+  '/./img/baner/samsung.webp',
+  '/./img/baner/honor.webp'
 ]
 
 export default function Slider() {
