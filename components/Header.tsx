@@ -15,12 +15,20 @@ import { useAppSelector } from "../redux/hook";
 export default function Header() {
     const todoList= useAppSelector((state) => state.cart);
     const [open, setOpen]= useState<boolean>(false);
+    const [open1, setOpen1]= useState<boolean>(false);
     const { push }= useRouter();
 
     const session= localStorage.getItem("token");
     
     const click= () =>{
         push("/login")
+    }
+    const click1= () =>{
+        push("/cart");
+        setOpen1(false);
+    }
+    const click2= () =>{
+        setOpen1(true)
     }
     const openHandler= () => setOpen(true);
     const closeHandler= () => setOpen(false);
@@ -32,6 +40,7 @@ export default function Header() {
                     <a href="/admin/orders" className="hover:text-blue-500">سفارشات</a>
                     <a href="/admin/inventory" className="hover:text-blue-500">موجودی</a>
                     <a href="/admin/products" className="hover:text-blue-500">محصولات</a>
+                    <a onClick={() => localStorage.removeItem("token")} href="/" className="hover:text-blue-500">خروج</a>
                 </span>
                 <span className="flex items-center gap-x-2">
                     <Image src="/icon/logo.png" alt='Logo' width={72} height={72}/>
@@ -46,7 +55,18 @@ export default function Header() {
                 </span>
                 <span className={`flex gap-x-5 ${!session ? "" : "hidden"}`}>
                     <button onClick={click} className="text-blue-500 w-40 py-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 hidden sm:block">ورود یا ثبت نام</button>
-                    <button className="text-xl text-blue-500 p-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 relative"><IoCartOutline/><div className={`bg-blue-500 text-white absolute right-[-10px] top-[-10px] rounded-full size-6 justify-center items-center ${todoList.list.length> 0 ? "flex" : "hidden"}`}>{todoList.list.length}</div></button>
+                    <button disabled={todoList.list.length<= 0} onClick={click2} className="text-xl text-blue-500 p-[10px] bg-gray-100 rounded-lg relative">
+                        <IoCartOutline/>
+                        <div className={`bg-blue-500 text-white absolute right-[-10px] top-[-10px] rounded-full size-6 justify-center items-center ${todoList.list.length> 0 ? "flex" : "hidden"}`}>{todoList.list.length}</div>
+                        {open1 && (
+                            <div className="absolute sm:left-0 top-20 bg-white z-30 w-60 border rounded-lg p-1">
+                            {todoList.list.map((product, index: number) =>(
+                                <p key={index} className="text-base text-black cursor-default">{index+ 1} - {product.name}</p>
+                            ))}
+                            <p onClick={click1} className="text-base bg-blue-500 hover:bg-blue-700 text-white rounded-md mt-2">سبد خرید</p>
+                        </div>
+                        )}
+                    </button>
                 </span>
                 <button onClick={openHandler} className="p-[10px] bg-blue-500 text-white text-lg rounded-lg sm:hidden">
                     <TiThMenu />
@@ -55,7 +75,7 @@ export default function Header() {
             <hr/>
         </header>
         {open && !session && (
-            <div className="flex flex-col bg-blue-500 text-white w-[35%] h-[100%] absolute top-0 z-20">
+            <div className="flex flex-col bg-blue-500 text-white w-[50%] h-80 absolute top-0 z-20">
                 <span className="flex items-center justify-between mb-5 px-2">
                     <h6>منو</h6>
                     <button onClick={closeHandler} className="text-3xl"><IoCloseSharp/></button>
@@ -73,6 +93,7 @@ export default function Header() {
             <a onClick={closeHandler} href="/admin/orders" className="hover:bg-white hover:text-blue-500 py-2 pr-1">سفارشات</a>
             <a onClick={closeHandler} href="/admin/inventory" className="hover:bg-white hover:text-blue-500 py-2 pr-1">موجودی</a>
             <a onClick={closeHandler} href="/admin/products" className="hover:bg-white hover:text-blue-500 py-2 pr-1">محصولات</a>
+            <a onClick={closeHandler} href="/" className="hover:bg-white hover:text-blue-500 py-2 pr-1">محصولات</a>
         </div>
         )}
         </>

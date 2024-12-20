@@ -47,7 +47,7 @@ export const Thumbnail: React.FC<IThumbnail> = ({ name, control }) => {
         />
         <p
           className={`text-xs font-medium ${error ? "text-red-400" : "text-slate-500"}`}>
-          Select your thumbnail
+          Select your Image
         </p>
       </div>
       {!!error && (

@@ -9,6 +9,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCategoryList, fetchProductList, fetchSubCategoryList, deleteProduct } from "@/apis/products.api";
 import useAuth from "@/hooks/auth";
 import { CreateProductForm } from "@/components/CreateProduct";
+import { IoMdClose } from "react-icons/io";
 
 export default function Orders() {
     useAuth();
@@ -94,9 +95,12 @@ export default function Orders() {
                 </table>
             </div>
             {
-                open && (<div className="absolute top-0 z-30 w-full sm:right-10">
-                    <CreateProductForm/>
-                </div>)
+                open && (
+                    <>
+                        <CreateProductForm/>
+                        <button onClick={() => setOpen(false)} className="absolute top-[-5] right-64 z-40 sm:right-[570] text-gray-500 hover:text-gray-700 text-2xl"><IoMdClose/></button>
+                    </>
+                )
             }
         </div>
     )

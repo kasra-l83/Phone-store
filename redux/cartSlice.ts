@@ -10,7 +10,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction) =>{
-      state.list.push({ name: action.payload.name, price: action.payload.price, image: action.payload.image});
+      state.list.push({ name: action.payload.name, price: action.payload.price, quantity: 1});
       localStorage.setItem("cart", JSON.stringify(state.list));
     },
     removeTodo: (state, action: PayloadAction) =>{
@@ -20,8 +20,22 @@ const cartSlice = createSlice({
     clearTodo: (state) =>{
       state.list= []
       localStorage.removeItem("cart")
+    },
+    increaseQuantity: (state, action: PayloadAction<string>) => {
+      const item = state.list.find((el) => el.name === action.payload);
+      if (item) {
+        item.quantity += 1;
+        localStorage.setItem("cart", JSON.stringify(state.list));
+      }
+    },
+    decreaseQuantity: (state, action: PayloadAction<string>) => {
+      const item = state.list.find((el) => el.name === action.payload);
+      if (item && item.quantity > 1) {
+        item.quantity -= 1;
+        localStorage.setItem("cart", JSON.stringify(state.list));
+      }
     }
   }
 })
 export const todoReducer= cartSlice.reducer;
-export const {addTodo, removeTodo, clearTodo}= cartSlice.actions;
+export const {addTodo, removeTodo, clearTodo, increaseQuantity, decreaseQuantity}= cartSlice.actions;

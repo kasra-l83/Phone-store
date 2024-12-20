@@ -60,29 +60,12 @@ export const CreateProductForm: React.FC = () => {
   }
 
   return (
-    <form onSubmit={createProductForm.handleSubmit(onSubmit)} className="space-y-4 w-full bg-white sm:w-[500px] p-3">
+    <form onSubmit={createProductForm.handleSubmit(onSubmit)} className="rounded-lg bg-white absolute top-[-20px] z-30 sm:right-28 space-y-4 w-full sm:w-[500px] p-3">
       <Thumbnail name="images" control={createProductForm.control} />
+      <span className="flex gap-x-2">
       <Controller name="name" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
         (
           <Input {...field} error={error?.message} label="اسم"/>
-        )}
-      />
-      <Controller name="category" control={createProductForm.control} render={() =>
-        (
-          <select>
-            {categories.data?.map((category: ICategory) =>(
-              <option key={category._id} value={category._id}>{category.name}</option>
-            ))}
-          </select>
-        )}
-      />
-      <Controller name="subcategory" control={createProductForm.control} render={() =>
-        (
-          <select>
-            {subCategories.data?.map((subCategory: ISubCategory) =>(
-              <option key={subCategory._id} value={subCategory._id}>{subCategory.name}</option>
-            ))}
-          </select>
         )}
       />
       <Controller name="brand" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
@@ -90,6 +73,30 @@ export const CreateProductForm: React.FC = () => {
           <Input {...field} error={error?.message} label="برند"/>
         )}
       />
+      </span>
+      <span className="flex gap-x-2">
+      <Controller name="category" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
+        (
+          <select {...field} className="border py-1 rounded-lg w-full">
+            <option>دیفالت</option>
+            {categories.data?.map((category: ICategory) =>(
+              <option key={category._id} value={category._id}>{category.name}</option>
+            ))}
+          </select>
+        )}
+      />
+      <Controller name="subcategory" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
+        (
+          <select {...field} className="border py-1 rounded-lg w-full">
+            <option>دیفالت</option>
+            {subCategories.data?.map((subCategory: ISubCategory) =>(
+              <option key={subCategory._id} value={subCategory._id}>{subCategory.name}</option>
+            ))}
+          </select>
+        )}
+      />
+      </span>
+      <span className="flex gap-x-2">
       <Controller name="price" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
         (
           <Input {...field} error={error?.message} label="قیمت"/>
@@ -100,12 +107,13 @@ export const CreateProductForm: React.FC = () => {
           <Input {...field} error={error?.message} label="موجودی"/>
         )}
       />
+      </span>
       <Controller name="description" control={createProductForm.control} render={({ field, fieldState: { error } }) =>
         (
           <Textarea {...field} error={error?.message} label="توضیحات"/>
         )}
       />
-      <button type="submit" className="text-white text-sm rounded-md font-semibold py-2 px-1 w-full bg-blue-500 hover:bg-blue-700 disabled:bg-gray-500">Submit</button>
+      <button type="submit" className="text-white text-sm rounded-md font-semibold py-2 px-1 w-full bg-blue-500 hover:bg-blue-700 disabled:bg-gray-500">تأیید</button>
     </form>
   )
 }

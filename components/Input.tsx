@@ -12,7 +12,7 @@ interface IInputProps extends React.DetailedHTMLProps<
 
 export const Input: React.FC<IInputProps> = ({label, error, ...props}) =>{
   return (
-    <div>
+    <div className="w-full">
       <span className="flex flex-col">
         <label htmlFor={label} className="text-lg font-light">{label}</label>
         <input {...props} id={label} autoComplete={label}

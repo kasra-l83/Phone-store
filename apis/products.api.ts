@@ -45,7 +45,7 @@ export const createProduct= async (data: FormData) =>{
   })
   return response.data;
 }
-export const editProduct= async (id: string) =>{
+export const updateProduct= async (id: string) =>{
   const client= generateClient();
   const response= await client.patch(urls.product.byId(id))
   return response.data

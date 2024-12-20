@@ -17,7 +17,7 @@ export const Textarea: React.FC<IInput> = ({
   return (
     <div className="flex flex-col">
       {!!label && (
-        <label className="text-slate-500 text-xs font-semibold">
+        <label className="text-lg font-light">
           {label}
         </label>
       )}
