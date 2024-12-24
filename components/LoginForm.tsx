@@ -24,18 +24,11 @@ export const LoginForm: React.FC= () =>{
     React.useEffect(() =>{
         if (!login.data || !login.isSuccess) return;
         localStorage.setItem("token", login.data?.token.accessToken);
-        localStorage.setItem("role", login.data?.data.user.role);
         toast.success("login successfully");
         reset();
-        if(login.data.data.user.role=== "ADMIN"){
-            setTimeout(() =>{
-                window.location.href= "/admin/orders"
-            }, 3000);
-        }else{
-            setTimeout(() =>{
-                window.location.href= "/"
-            }, 3000);
-        }
+        setTimeout(() =>{
+            window.location.href= "/admin/orders"
+        }, 3000);
     }, [login.data, login.isSuccess])
     React.useEffect(() =>{
         if (!login.error || !login.isError) return;

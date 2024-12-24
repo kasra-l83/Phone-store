@@ -1,4 +1,4 @@
-import { ILogin } from "@/types/users";
+import { ILogin, ISignup } from "@/types/users";
 import { generateClient } from "./client";
 import { urls } from "./urls";
 
@@ -14,5 +14,10 @@ export const fetchUserList= async () =>{
 export const login = async (body: ILogin) => {
   const client = generateClient();
   const response = await client.post(urls.user.login, body);
+  return response.data;
+}
+export const signup = async (body: ISignup) => {
+  const client = generateClient();
+  const response = await client.post(urls.user.signup, body);
   return response.data;
 }

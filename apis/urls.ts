@@ -12,6 +12,7 @@ export const urls= {
   },
   user: {
     login: "/auth/login",
+    signup: "/auth/signup",
     list: "/users",
     byId: (id: string) => `/users/${id}`
   },

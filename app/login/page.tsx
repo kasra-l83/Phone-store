@@ -1,5 +1,6 @@
 import { LoginForm } from "@/components/LoginForm";
 import Image from 'next/image'
+import Link from "next/link";
 
 const LoginPage= () =>{
   return (
@@ -8,8 +9,12 @@ const LoginPage= () =>{
         <Image src="/icon/logo.png" alt='Logo' width={72} height={72}/>
         <h2 className="text-2xl text-blue-900 font-semibold">PLAY<span className="text-yellow-700">MEDA</span></h2>
       </div>
-      <h4 className='text-2xl font-bold'>ورود ادمین</h4>
+      <h4 className='text-2xl font-bold'>ورود کاربر</h4>
       <LoginForm/>
+      <span className="flex gap-x-3">
+        <p>هنوز عضو نشده اید؟</p>
+        <Link href="/signup" className="text-blue-500 hover:text-blue-700 font-bold">ثبت نام</Link>
+      </span>
     </section>
   )
 }

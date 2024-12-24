@@ -10,15 +10,11 @@ export default function useAuth() {
         if (!token) {
             toast.error("You are not authorize")
             router.push("/");
-        }else if(localStorage.getItem("role") !== "ADMIN"){
-            toast.error("You are not admin")
-            router.push("/");
         }else {
             const tokenPayload= JSON.parse(atob(token.split('.')[1]));
             const tokenExpired= tokenPayload.exp * 1000 < Date.now() || (Date.now() - tokenPayload.iat * 1000) > 15 * 60 * 1000;
             if (tokenExpired) {
                 localStorage.removeItem("token");
-                localStorage.removeItem("role")
                 toast.error("Your token expired");
                 router.push("/");
             }

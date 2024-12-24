@@ -1,12 +1,13 @@
 import { z } from "zod";
 
 export type authSchemaType= z.infer<typeof authSchema>;
+export type signupSchemaType= z.infer<typeof signupSchema>;
 
 export const Schema= z.object({
   fullName: z
     .string()
     .min(5,"نام و نام خانوادگی باید حداقل 5 حرف باشد"),
-    subject: z
+  subject: z
     .string()
     .min(3, "موضوع باید حداقل 3 حرف باشد"),
   email: z
@@ -85,3 +86,31 @@ export const createProductSchemaClient = z.object({
 export type createProductSchemaClientType = createProductSchemaType & {
   images: File;
 }
+export const signupSchema = z.object({
+  username: z
+    .string()
+    .min(5, "نام کاربری باید حداقل 5 حرف باشد"),
+  password: z
+    .string()
+    .min(8, "رمز عبور باید حداقل 8 حرف باشد"),
+  phoneNumber: z
+    .string()
+    .refine(
+      (value) => /[1-9]/g.test(value), "تلفن تماس باید فقط شامل اعداد باشند"
+    )
+    .refine(
+      (value) => /^09/.test(value), "تلفن تماس باید با 09 شروع شوند"
+    )
+    .refine(
+      (value) => /^09\d{9}$/.test(value), "شماره تماس باید 11 رقم باشد"
+    ),
+  firstname: z
+    .string()
+    .min(3,"نام و نام خانوادگی باید حداقل 3 حرف باشد"),
+  lastname: z
+    .string()
+    .min(5,"نام و نام خانوادگی باید حداقل 5 حرف باشد"),
+  address: z
+    .string()
+    .min(10,"نام و نام خانوادگی باید حداقل 10 حرف باشد")
+})
