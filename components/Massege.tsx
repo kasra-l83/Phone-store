@@ -8,17 +8,16 @@ import { RiSendPlaneFill } from "react-icons/ri";
 
 export const MassegeForm: React.FC= () =>{
     const {handleSubmit, reset, control}= useForm<IMassege>({
-        mode: "onSubmit",
+        mode: "all",
         resolver: zodResolver(Schema)
     })
 
     const Submit= (data: IMassege) =>{
-        console.log(data);
         reset();
     }
 
     return (
-        <form onSubmit={handleSubmit(Submit)} className="max-w-[500px] w-full space-y-5 rounded-2xl flex flex-col items-center">
+        <form onSubmit={handleSubmit(Submit)} className="max-w-[700px] w-full space-y-5 rounded-2xl flex flex-col items-center">
             <span className="flex w-full justify-around gap-x-2">
                 <Controller defaultValue="" name="fullName" control={control} render={({ field, fieldState }) =>(
                     <Input label="نام و نام خانوادگی" {...field} error={fieldState.error?.message}/>

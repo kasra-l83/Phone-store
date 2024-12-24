@@ -7,7 +7,7 @@ export const urls= {
     byId: (id: string) => `/categories/${id}`
   },
   subCategory: {
-    list: "/subcategories?limit=total",
+    list: "/subcategories?limit=0",
     byId: (id: string) => `/subcategories/${id}`,
   },
   user: {

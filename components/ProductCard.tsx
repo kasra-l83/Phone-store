@@ -6,17 +6,6 @@ import { TfiTruck } from "react-icons/tfi";
 import { FaStar } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
 
-export const ProductCardSkeleton: React.FC= () =>{
-  return (
-    <div className="h-72 w-60 rounded-lg bg-gray-300">
-      <div className="h-[80%] rounded-t-lg flex justify-center items-center"><div className='size-[160px] bg-gray-500'></div></div>
-      <div className="h-[20%] px-2 py-1 rounded-b-lg">
-        <div className='w-5 h-2 bg-gray-500'></div>
-        <div className='w-5 h-2 text-left bg-gray-500'></div>
-      </div>
-    </div>
-  )
-}
 export const ProductCard: React.FC<any>= ({image, name, price, id, quantity}) =>{
   const {push}= useRouter();
 

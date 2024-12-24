@@ -1,28 +1,12 @@
-"use client"
-
 import { fetchProductList } from '@/apis/products.api';
 import { CategoryCard } from '@/components/CategotyCard';
-import { ProductCard, ProductCardSkeleton } from '@/components/ProductCard';
+import { ProductCard } from '@/components/ProductCard';
 import Slider from '@/components/slider';
 import { IProduct } from '@/types/product';
-import { Suspense } from 'react';
 import { GoChevronLeft } from "react-icons/go";
-import { useQuery } from 'react-query';
 
-const HomeSkeleton= () =>{
-  return (
-    <div className='flex justify-between gap-y-5 flex-wrap'>
-      {[1,2,3,4,5].map((el) =>(
-        <ProductCardSkeleton key={el}/>
-      ))}
-    </div>
-  )
-}
-export default function Home() {
-  const products= useQuery({
-    queryKey: ["products"],
-    queryFn: () => fetchProductList(1, products.data?.total)
-  })
+const Home= async() =>{
+  const products= await fetchProductList(1, 0);
   
   return (
     <div className='flex flex-col gap-y-5'>
@@ -36,15 +20,13 @@ export default function Home() {
           </span>
         </span>
         <div className='flex justify-center sm:justify-between gap-5 flex-wrap'>
-          {products.data?.data.products.filter((product: any)=>{
+          {products.data?.products.filter((product: IProduct)=>{
             if(product.category==="67594a60c44cc15973d2b4b6"){
               return true
             }
             return false;
-          }).slice(0, 6).map((product: IProduct, index: number) =>(
-            <Suspense fallback={<HomeSkeleton/>} key={index}>
-              <ProductCard id={product._id} image={product.images[0]} name={product.name} price={product.price} quantity={product.quantity}/>
-            </Suspense>
+          }).slice(0, 6).map((product: IProduct) =>(
+            <ProductCard key={product._id} id={product._id} image={product.images} name={product.name} price={product.price} quantity={product.quantity}/>
           ))}
         </div>
       </section>
@@ -57,15 +39,13 @@ export default function Home() {
           </span>
         </span>
         <div className='flex justify-center sm:justify-between gap-5 flex-wrap'>
-          {products.data?.data.products.filter((product: IProduct)=>{
+          {products.data?.products.filter((product: IProduct)=>{
             if(product.category==="67594a73c44cc15973d2b4ba"){
               return true
             }
             return false;
-          }).slice(0, 6).map((product: IProduct, index: number) =>(
-            <Suspense fallback={<HomeSkeleton/>} key={index}>
-              <ProductCard id={product._id} image={product.images[0]} name={product.name} price={product.price} quantity={product.quantity}/>
-            </Suspense>
+          }).slice(0, 6).map((product: IProduct) =>(
+            <ProductCard key={product._id} id={product._id} image={product.images} name={product.name} price={product.price} quantity={product.quantity}/>
           ))}
         </div>
       </section>
@@ -85,18 +65,17 @@ export default function Home() {
           </span>
         </span>
         <div className='flex justify-center sm:justify-start gap-5 flex-wrap'>
-          {products.data?.data.products.filter((product: any)=>{
+          {products.data?.products.filter((product: IProduct)=>{
             if(product.quantity===0){
               return true
             }
             return false;
-          }).slice(0, 6).map((product: IProduct, index: number) =>(
-            <Suspense fallback={<HomeSkeleton/>} key={index}>
-              <ProductCard id={product._id} image={product.images[0]} name={product.name} price={product.price} quantity={product.quantity}/>
-            </Suspense>
+          }).slice(0, 6).map((product: IProduct) =>(
+            <ProductCard key={product._id} id={product._id} image={product.images} name={product.name} price={product.price} quantity={product.quantity}/>
           ))}
         </div>
       </section>
     </div>
   )
 }
+export default Home;

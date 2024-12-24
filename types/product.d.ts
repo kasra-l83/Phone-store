@@ -3,21 +3,21 @@ export interface IProduct{
     category: string
     createdAt: string
     description: string
-    images: Array<string>
+    images: File
     name: string
     price: number
     quantity: number
     rating: Array<number>
     slugname: string
     subcategory: string
-    thumbnail: string
+    thumbnail: Array<File>
     updatedAt: string
     _id: string
 }
 export interface ICategory{
     _id: string
     name: string
-    icon: string
+    icon: File
     createdAt: string
     updatedAt: string
     slugname: string

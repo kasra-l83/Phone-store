@@ -17,7 +17,7 @@ const ProductPage: React.FC<IPageParams<{ id: string }>>= async ({ params }) =>{
 
   return (
     <section className="flex flex-nowrap">
-      <Image src={`http://localhost:8000/images/products/images/${product.images[0]}`} alt={product.name} width={500} height={500}/>
+      <Image src={`http://localhost:8000/images/products/images/${product.images}`} alt={product.name} width={500} height={500}/>
       <div className="w-full pl-5 flex flex-col justify-between">
         <h4 className="text-sm text-blue-500 font-bold">{subCategory.category.name} / {subCategory.name}</h4>
         <h2 className="text-lg font-medium">گوشی موبایل {product.name}</h2>

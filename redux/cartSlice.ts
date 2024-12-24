@@ -1,15 +1,16 @@
+import { ITodo } from '@/types/todo';
 import { createSlice} from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 export const initialState= {
-  list: typeof window !== "undefined" ? JSON.parse(localStorage.getItem("cart")) || [] : []
+  list: JSON.parse(`${localStorage.getItem("cart")}`) || []
 }
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction) =>{
+    addTodo: (state, action: PayloadAction<ITodo>) =>{
       state.list.push({ name: action.payload.name, price: action.payload.price, quantity: 1});
       localStorage.setItem("cart", JSON.stringify(state.list));
     },

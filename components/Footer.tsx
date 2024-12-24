@@ -12,7 +12,7 @@ export default function Footer() {
 
     return (
         <footer className='pt-5 border-t-2 mt-5'>
-            <div className='flex justify-between items-center mb-1 px-5'>
+            <span className='flex justify-between items-center mb-1 px-5'>
                 <span className="flex items-center gap-x-2">
                     <Image src="/icon/logo.png" alt='Logo' width={40} height={40}/>
                     <h2 className="text-2xl text-blue-900 font-semibold">
@@ -22,7 +22,7 @@ export default function Footer() {
                 <button onClick={scrollToTop} className='text-gray-400 text-sm font-semibold px-2 border-2 hidden sm:flex gap-x-2 items-center rounded-lg h-10 hover:text-gray-500 hover:border-gray-500'>
                     بازگشت به بالا<IoIosArrowUp/>
                 </button>
-            </div>
+            </span>
             <span className='flex mb-10 px-5'>
                 <p className='text-sm pl-3'>تلفن پشتیبانی ۶۱۹۳۰۰۰۰ - ۰۲۱</p>
                 <p className='text-sm border-x-2 px-3'>۰۲۱-۹۱۰۰۰۱۰۰</p>

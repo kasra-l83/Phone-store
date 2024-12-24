@@ -28,10 +28,10 @@ export default function Slider() {
   }, []);
 
   return (
-    <div className="slider relative">
+    <section className="slider relative">
       <button className='hidden sm:block p-3 rounded-e-3xl bg-blue-500 text-white absolute bottom-[45%]' onClick={prev}><FaChevronRight/></button>
       <Image className='rounded-3xl' src={slider[currentIndex]} alt='' width={1400} height={291}/>
       <button className='hidden sm:block p-3 rounded-s-3xl bg-blue-500 text-white absolute left-0 bottom-[45%]' onClick={next}><FaChevronLeft/></button>
-    </div>
+    </section>
   )
 }

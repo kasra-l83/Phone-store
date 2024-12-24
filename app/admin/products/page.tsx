@@ -82,7 +82,7 @@ export default function Orders() {
                     <tbody>
                         {products.data?.data.products.map((product: IProduct, index: number) =>(
                             <tr key={index} className={`${index % 2 !== 0 ? "bg-gray-200" : ""}`}>
-                                <th className="p-4"><Image src={`http://localhost:8000/images/products/images/${product.images[0]}`} alt={product.name} width={190} height={252}/></th>
+                                <th className="p-4"><Image src={`http://localhost:8000/images/products/images/${product.images}`} alt={product.name} width={190} height={252}/></th>
                                 <th className="px-6 py-4 text-gray-900 text-nowrap">{product.name}</th>
                                 <th className="px-6 py-4 text-gray-900">{getCategoryById(product.category)} / {getSubCategoryById(product.subcategory)}</th>
                                 <th className="flex gap-4 px-6 py-4 text-gray-900 h-[215px]">

@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 const ProductPage: React.FC<IPageParams<{ id: string }>>= async ({ params }) =>{
   const id= (await params).id;
-  const products= await fetchProductList(1, "total")
+  const products= await fetchProductList(1, 0);
 
   return (
     <div className="flex flex-wrap">
