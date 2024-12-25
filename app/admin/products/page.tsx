@@ -9,8 +9,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCategoryList, fetchProductList, fetchSubCategoryList, deleteProduct } from "@/apis/products.api";
 import { CreateProductForm } from "@/components/CreateProduct";
 import { IoMdClose } from "react-icons/io";
+import useAuth from "@/hooks/auth";
 
 export default function Orders() {
+    useAuth();
     const [page, setPage]= useState<number>(1);
     const [open, setOpen]= useState<boolean>(false);
     const queryClient= useQueryClient();

@@ -5,9 +5,11 @@ import { IProduct } from "@/types/product";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { formatPrice } from "@/utils/global";
+import useAuth from "@/hooks/auth";
 
 export default function Inventory() {
-    const [page,setPage]= useState<number>(1)
+    useAuth();
+    const [page,setPage]= useState<number>(1);
 
     const products= useQuery({
         queryKey: ["products", page],
