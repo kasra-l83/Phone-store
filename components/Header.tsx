@@ -11,6 +11,7 @@ import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { FaPencilRuler } from "react-icons/fa";
 import { FaPhoneFlip } from "react-icons/fa6";
 import { useAppSelector } from "../redux/hook";
+import { ITodo } from "@/types/todo";
 
 export default function Header() {
     const todoList= useAppSelector((state) => state.cart);
@@ -61,7 +62,7 @@ export default function Header() {
                         <div className={`bg-blue-500 text-white absolute right-[-10px] top-[-10px] rounded-full size-6 justify-center items-center ${todoList.list.length> 0 ? "flex" : "hidden"}`}>{todoList.list.length}</div>
                         {open1 && (
                             <div className="absolute sm:left-0 top-20 bg-white z-30 w-60 border rounded-lg p-1">
-                            {todoList.list.map((product, index: number) =>(
+                            {todoList.list.map((product: ITodo, index: number) =>(
                                 <p key={index} className="text-base text-black cursor-default">{index+ 1} - {product.name}</p>
                             ))}
                             <p onClick={click1} className="text-base bg-blue-500 hover:bg-blue-700 text-white rounded-md mt-2">سبد خرید</p>

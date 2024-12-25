@@ -1,14 +1,12 @@
 "use client"
 
 import { fetchProductList } from "@/apis/products.api";
-import useAuth from "@/hooks/auth";
 import { IProduct } from "@/types/product";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { formatPrice } from "@/utils/global";
 
 export default function Inventory() {
-    useAuth();
     const [page,setPage]= useState<number>(1)
 
     const products= useQuery({

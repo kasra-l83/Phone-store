@@ -1,14 +1,19 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { Auth } from "@/providers/auth.provider";
 
 export default function useAuth() {
     const router= useRouter();
+    const {user, logout}= Auth();
     const token= localStorage.getItem("token");
 
     useEffect(() =>{
         if (!token) {
             toast.error("You are not authorize")
+            router.push("/");
+        }else if(user!== "admin"){
+            toast.error("You dont have access to this page")
             router.push("/");
         }else {
             const tokenPayload= JSON.parse(atob(token.split('.')[1]));
@@ -16,8 +21,9 @@ export default function useAuth() {
             if (tokenExpired) {
                 localStorage.removeItem("token");
                 toast.error("Your token expired");
+                logout();
                 router.push("/");
             }
         }
-    }, [token]);
+    }, [token, user])
 }

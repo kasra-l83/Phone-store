@@ -9,6 +9,8 @@ import { useLogin } from "@/apis/mutation";
 import { errorHandler } from "../utils/errorHandler";
 import React from "react";
 import { toast } from "react-toastify";
+import { Auth } from "@/providers/auth.provider";
+import { useRouter } from "next/navigation";
 
 export const LoginForm: React.FC= () =>{
     const {control, handleSubmit, reset}= useForm<authSchemaType>({
@@ -16,24 +18,34 @@ export const LoginForm: React.FC= () =>{
         mode:"all"
     })
     
-    const login= useLogin();
+    const router= useRouter();
+    const {login}= Auth();
+    const log= useLogin();
     const submit= (data: authSchemaType) =>{
-        login.mutate(data);
+        log.mutate(data);
     }
 
     React.useEffect(() =>{
-        if (!login.data || !login.isSuccess) return;
-        localStorage.setItem("token", login.data?.token.accessToken);
-        toast.success("login successfully");
+        if (!log.data || !log.isSuccess) return;
+        localStorage.setItem("token", log.data?.token.accessToken);
         reset();
-        setTimeout(() =>{
-            window.location.href= "/admin/orders"
-        }, 3000);
-    }, [login.data, login.isSuccess])
+        toast.success("login successfully");
+        if(log.data?.data.user.role=== "ADMIN"){
+            login("admin");
+            setTimeout(() =>{
+                router.push("/admin/orders");
+            }, 3000);
+        }else{
+            login("user");
+            setTimeout(() =>{
+                router.push("/");
+            }, 3000);
+        }
+    }, [log.data, log.isSuccess])
     React.useEffect(() =>{
-        if (!login.error || !login.isError) return;
-            errorHandler(login.error as AxiosError);
-    }, [login.error, login.isError])
+        if (!log.error || !log.isError) return;
+            errorHandler(log.error as AxiosError);
+    }, [log.error, log.isError])
     
     return(
         <form name="login" className='w-full flex flex-col gap-y-5' onSubmit={handleSubmit(submit)}>

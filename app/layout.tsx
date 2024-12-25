@@ -6,6 +6,7 @@ import { TanstackProvider } from "@/providers/tanstak.provider";
 import { QueryClintProvider } from "@/providers/queryclient.provider";
 import Footer from "@/components/Footer";
 import ReduxProvider from "@/providers/redux.provider";
+import AuthProvider from "@/providers/auth.provider";
 
 export const metadata: Metadata = {
   title: "پلی مدا",
@@ -20,11 +21,13 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
           <TanstackProvider>
             <QueryClintProvider>
               <ReduxProvider>
-                <Header/>
+                <AuthProvider>
+                  <Header/>
                   <div className="max-w-[1440px] mx-auto px-5">
                     {children}
                   </div>
-                <Footer/>
+                  <Footer/>
+                </AuthProvider>
               </ReduxProvider>
             </QueryClintProvider>
           </TanstackProvider>
