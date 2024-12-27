@@ -60,6 +60,9 @@ export default function Header() {
                     <a href="/rules" className="hover:text-blue-500">قوانین و مقررات</a>
                     <a href="/contact" className="hover:text-blue-500">تماس با ما</a>
                     <a href="/about" className="hover:text-blue-500">درباره ما</a>
+                    {user=== "user" && (
+                        <a onClick={Logout} className="hover:text-blue-500 cursor-pointer">خروج</a>
+                    )}
                 </span>
                 <span className={`flex gap-x-5 ${user=== "admin" ? "hidden" : ""}`}>
                     <button onClick={click} className={`text-blue-500 w-40 py-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 ${session? "hidden" : "hidden sm:block"}`}>ورود یا ثبت نام</button>

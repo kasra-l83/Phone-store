@@ -9,6 +9,8 @@ import { useSignup } from "@/apis/mutation";
 import { errorHandler } from "../utils/errorHandler";
 import React from "react";
 import { toast } from "react-toastify";
+import { Auth } from "@/providers/auth.provider";
+import { useRouter } from "next/navigation";
 
 export const SignupForm: React.FC= () =>{
     const {control, handleSubmit, reset}= useForm<signupSchemaType>({
@@ -17,6 +19,8 @@ export const SignupForm: React.FC= () =>{
     })
     
     const signup= useSignup();
+    const {login}= Auth();
+    const router= useRouter();
     const submit= (data: signupSchemaType) =>{
         signup.mutate(data);
     }
@@ -26,6 +30,10 @@ export const SignupForm: React.FC= () =>{
         toast.success("Signup successfully");
         localStorage.setItem("token", signup.data?.token.accessToken)
         reset();
+        login("user");
+        setTimeout(() =>{
+            router.push("/");
+        }, 3000);
     }, [signup.data, signup.isSuccess])
     React.useEffect(() =>{
         if (!signup.error || !signup.isError) return;
@@ -59,7 +67,7 @@ export const SignupForm: React.FC= () =>{
                     <Input {...field} error={error?.message} label='شهر'/>
                 )}/>
             </span>
-            <button type="submit" className='w-full bg-blue-500 rounded-lg text-white h-10 hover:bg-blue-700'>ورود</button>
+            <button type="submit" className='w-full bg-blue-500 rounded-lg text-white h-10 hover:bg-blue-700'>ثبت</button>
         </form>
     )
 }

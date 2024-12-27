@@ -19,9 +19,9 @@ export default function useAuth() {
             const tokenPayload= JSON.parse(atob(token.split('.')[1]));
             const tokenExpired= tokenPayload.exp * 1000 < Date.now() || (Date.now() - tokenPayload.iat * 1000) > 15 * 60 * 1000;
             if (tokenExpired) {
+                logout();
                 localStorage.removeItem("token");
                 toast.error("Your token expired");
-                logout();
                 router.push("/");
             }
         }
