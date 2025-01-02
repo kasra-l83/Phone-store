@@ -33,7 +33,7 @@ export default function Orders() {
     const deleteMutation = useMutation({
         mutationFn: (id: string) => deleteProduct(id),
         onSuccess: () =>{
-            queryClient.invalidateQueries(["products", page]);
+            queryClient.invalidateQueries();
         }
     })
 

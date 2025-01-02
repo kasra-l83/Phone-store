@@ -15,7 +15,7 @@ const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state.list));
     },
     removeTodo: (state, action: PayloadAction) =>{
-      state.list= state.list.filter((el) => el.name !== action.payload);
+      state.list= state.list.filter((el: {name: void}) => el.name !== action.payload);
       localStorage.setItem("cart", JSON.stringify(state.list));
     },
     clearTodo: (state) =>{
@@ -23,14 +23,14 @@ const cartSlice = createSlice({
       localStorage.removeItem("cart")
     },
     increaseQuantity: (state, action: PayloadAction<string>) => {
-      const item = state.list.find((el) => el.name === action.payload);
+      const item = state.list.find((el: {name: string}) => el.name === action.payload);
       if (item) {
         item.quantity += 1;
         localStorage.setItem("cart", JSON.stringify(state.list));
       }
     },
     decreaseQuantity: (state, action: PayloadAction<string>) => {
-      const item = state.list.find((el) => el.name === action.payload);
+      const item = state.list.find((el: {name: string}) => el.name === action.payload);
       if (item && item.quantity > 1) {
         item.quantity -= 1;
         localStorage.setItem("cart", JSON.stringify(state.list));

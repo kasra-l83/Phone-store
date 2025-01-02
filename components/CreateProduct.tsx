@@ -21,8 +21,8 @@ export const CreateProductForm: React.FC = () => {
     queryFn: () => fetchCategoryList()
 })
   const subCategories= useQuery({
-      queryKey: ["subcategory"],
-      queryFn: () => fetchSubCategoryList()
+    queryKey: ["subcategory"],
+    queryFn: () => fetchSubCategoryList()
   })
   const createProductForm = useForm<createProductSchemaClientType>({
     mode: "all",

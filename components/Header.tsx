@@ -55,7 +55,6 @@ export default function Header() {
                 </span>
                 <span className={`hidden gap-x-5 xl:gap-x-10 text-base text-gray-400 font-normal ${user !== "admin"? "lg:flex" : ""}`}>
                     <a href="/" className="hover:text-blue-500">صفحه اصلی</a>
-                    <a href="/products" className="hover:text-blue-500">محصولات</a>
                     <a href="/category" className="hover:text-blue-500">دسته بندی</a>
                     <a href="/rules" className="hover:text-blue-500">قوانین و مقررات</a>
                     <a href="/contact" className="hover:text-blue-500">تماس با ما</a>
@@ -92,7 +91,6 @@ export default function Header() {
                     <button onClick={closeHandler} className="text-3xl"><IoCloseSharp/></button>
                 </span>
             <a onClick={closeHandler} href="/" className="hover:bg-white hover:text-blue-500 py-2 pr-1 flex gap-x-2 items-center"><IoHomeSharp />صفحه اصلی</a>
-            <a onClick={closeHandler} href="/products" className="hover:bg-white hover:text-blue-500 py-2 pr-1 flex gap-x-2 items-center"><MdOutlineProductionQuantityLimits />محصولات</a>
             <a onClick={closeHandler} href="/category" className="hover:bg-white hover:text-blue-500 py-2 pr-1 flex gap-x-2 items-center">دسته بندی</a>
             <a onClick={closeHandler} href="/rules" className="hover:bg-white hover:text-blue-500 py-2 pr-1 flex gap-x-2 items-center"><FaPencilRuler />قوانین و مقررات</a>
             <a onClick={closeHandler} href="/contact" className="hover:bg-white hover:text-blue-500 py-2 pr-1 flex gap-x-2 items-center"><FaPhoneFlip />تماس با ما</a>

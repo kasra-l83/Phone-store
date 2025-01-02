@@ -1,6 +1,7 @@
 export const urls= {
   order: {
-    list: (page: number) => `/orders?page=${page}&limit=5`
+    list: (page: number) => `/orders?page=${page}&limit=5`,
+    byId: (id: string) => `/orders/${id}`
   },
   category: {
     list: "/categories",

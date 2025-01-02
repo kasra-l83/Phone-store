@@ -21,10 +21,16 @@ export const LoginForm: React.FC= () =>{
     const router= useRouter();
     const {login}= Auth();
     const log= useLogin();
+    const token= localStorage.getItem("token");
     const submit= (data: authSchemaType) =>{
         log.mutate(data);
     }
 
+    React.useEffect(() =>{
+        if(token){
+            router.push("/");
+        }
+    }, [])
     React.useEffect(() =>{
         if (!log.data || !log.isSuccess) return;
         localStorage.setItem("token", log.data?.token.accessToken);
