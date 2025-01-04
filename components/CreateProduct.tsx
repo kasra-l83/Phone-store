@@ -53,7 +53,7 @@ export const CreateProductForm: React.FC = () => {
       const controller = new AbortController();
       setAbortController(controller);
       await createProduct(formData)
-      toast.success("Created");
+      toast.success("ساخته شد");
     } catch (error) {
       errorHandler(error as AxiosError);
     }

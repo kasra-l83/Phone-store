@@ -7,7 +7,10 @@ import { QueryClintProvider } from "@/providers/queryclient.provider";
 import Footer from "@/components/Footer";
 import ReduxProvider from "@/providers/redux.provider";
 import AuthProvider from "@/providers/auth.provider";
+import { Vazirmatn } from "next/font/google";
+import { NextFont } from "next/dist/compiled/@next/font";
 
+const vazir: NextFont = Vazirmatn();
 export const metadata: Metadata = {
   title: "پلی مدا",
   description: "فروشگاه لوازم دیجیتال پلی مدا"
@@ -16,7 +19,7 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
   return (
     <html lang="fa" dir="rtl">
-      <body className="antialiased">
+      <body className={`${vazir.className} antialiased`}>
         <ToastifyProvider>
           <TanstackProvider>
             <QueryClintProvider>

@@ -35,7 +35,7 @@ export const LoginForm: React.FC= () =>{
         if (!log.data || !log.isSuccess) return;
         localStorage.setItem("token", log.data?.token.accessToken);
         reset();
-        toast.success("login successfully");
+        toast.success("ورود موفق");
         if(log.data?.data.user.role=== "ADMIN"){
             login("admin");
             setTimeout(() =>{

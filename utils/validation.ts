@@ -93,6 +93,9 @@ export const signupSchema = z.object({
   password: z
     .string()
     .min(8, "رمز عبور باید حداقل 8 حرف باشد"),
+  confirmPassword: z
+    .string()
+    .min(8, "رمز عبور باید حداقل 8 حرف باشد"),
   phoneNumber: z
     .string()
     .refine(
@@ -113,4 +116,7 @@ export const signupSchema = z.object({
   address: z
     .string()
     .min(10,"نام و نام خانوادگی باید حداقل 10 حرف باشد")
+}).refine(data => data.password=== data.confirmPassword, {
+  message: 'رمز عبور تطابق ندارد',
+  path: ['confirmPassword']
 })

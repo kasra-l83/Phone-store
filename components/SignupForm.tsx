@@ -27,7 +27,7 @@ export const SignupForm: React.FC= () =>{
 
     React.useEffect(() =>{
         if (!signup.data || !signup.isSuccess) return;
-        toast.success("Signup successfully");
+        toast.success("ثبت موفق");
         localStorage.setItem("token", signup.data?.token.accessToken)
         reset();
         login("user");
@@ -51,13 +51,16 @@ export const SignupForm: React.FC= () =>{
                     <Input {...field} error={error?.message} label='نام خانوادگی'/>
                 )}/>
             </span>
+            <Controller defaultValue="" name='username' control={control} render={({field, fieldState: {error}}) =>(
+                <Input {...field} error={error?.message} label='نام کاربری'/>
+            )}/>
             <span className="flex gap-x-3">
-                <Controller defaultValue="" name='username' control={control} render={({field, fieldState: {error}}) =>(
-                    <Input {...field} error={error?.message} label='نام کاربری'/>
-                )}/>
                 <Controller defaultValue="" name='password' control={control} render={({field, fieldState: {error}}) =>(
                     <Input type="password" {...field} error={error?.message} label='رمز عبور'/>
                 )}/>
+                <Controller defaultValue="" name="confirmPassword" control={control} render={({ field, fieldState: { error } }) => (
+                    <Input type="password" {...field} error={error?.message} label="تکرار رمز عبور" />
+                )} />
             </span>
             <span className="flex gap-x-3">
                 <Controller defaultValue="" name='phoneNumber' control={control} render={({field, fieldState: {error}}) =>(
