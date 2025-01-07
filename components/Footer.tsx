@@ -30,7 +30,7 @@ export default function Footer() {
             </span>
             <span className='flex justify-around flex-wrap gap-3 mb-10 px-5'>
                 <div className='flex flex-col items-center'>
-                    <Image src="/icon/express.png" alt='Express' width={56} height={56}/>
+                    <Image src="/icon/express.svg" alt='Express' width={56} height={56}/>
                     <h6 className='text-sm'>امکان تحویل اکپرس</h6>
                 </div>
                 <div className='flex flex-col items-center'>
@@ -38,15 +38,15 @@ export default function Footer() {
                     <h6 className='text-sm'>امکان پرداخت در محل</h6>
                 </div>
                 <div className='flex flex-col items-center'>
-                    <Image src="/icon/support.png" alt='Support' width={56} height={56}/>
+                    <Image src="/icon/support.svg" alt='Support' width={56} height={56}/>
                     <h6 className='text-sm'>7 روز هفته، 24 ساعت</h6>
                 </div>
                 <div className='flex flex-col items-center'>
-                    <Image src="/icon/return.png" alt='Return' width={56} height={56}/>
+                    <Image src="/icon/return.svg" alt='Return' width={56} height={56}/>
                     <h6 className='text-sm'>هفت روز ضمانت بازگشت کالا</h6>
                 </div>
                 <div className='flex flex-col items-center'>
-                    <Image src="/icon/original.png" alt='Original' width={56} height={56}/>
+                    <Image src="/icon/original.svg" alt='Original' width={56} height={56}/>
                     <h6 className='text-sm'>ضمانت اصل بودن کالا</h6>
                 </div>
             </span>

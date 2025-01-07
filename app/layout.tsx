@@ -10,7 +10,7 @@ import AuthProvider from "@/providers/auth.provider";
 import { Vazirmatn } from "next/font/google";
 import { NextFont } from "next/dist/compiled/@next/font";
 
-const vazir: NextFont = Vazirmatn();
+const vazir: NextFont= Vazirmatn();
 export const metadata: Metadata = {
   title: "پلی مدا",
   description: "فروشگاه لوازم دیجیتال پلی مدا"

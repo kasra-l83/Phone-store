@@ -68,14 +68,6 @@ export default function Header() {
                     <button disabled={todoList.list.length<= 0} onClick={click2} className="text-xl text-blue-500 p-[10px] bg-gray-100 rounded-lg relative">
                         <IoCartOutline/>
                         <div className={`bg-blue-500 text-white absolute right-[-10px] top-[-10px] rounded-full size-6 justify-center items-center ${todoList.list.length> 0 ? "flex" : "hidden"}`}>{todoList.list.length}</div>
-                        {open1 && (
-                            <div className="absolute sm:left-0 top-20 bg-white z-30 w-60 border rounded-lg p-1">
-                            {todoList.list.map((product: ITodo, index: number) =>(
-                                <p key={index} className="text-base text-black cursor-default">{index+ 1} - {product.name}</p>
-                            ))}
-                            <p onClick={click1} className="text-base bg-blue-500 hover:bg-blue-700 text-white rounded-md mt-2">سبد خرید</p>
-                        </div>
-                        )}
                     </button>
                 </span>
                 <button onClick={openHandler} className="p-[10px] bg-blue-500 text-white text-lg rounded-lg sm:hidden">

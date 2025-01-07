@@ -53,7 +53,7 @@ const Home= async() =>{
         <CategoryCard/>
         <div className="size-36 bg-gray-100 rounded-2xl flex flex-col items-center justify-center px-5 cursor-pointer">
           <p className='font-black text-xl'>...</p>
-          <p className='text-sm'>Other Brands</p>
+          <p className='text-sm'>برند های دیگر</p>
         </div>
       </section>
       <section className='mb-10 flex flex-col gap-y-3 border pt-5'>
