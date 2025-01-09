@@ -4,13 +4,13 @@ import { useAppDispatch } from "../redux/hook";
 import { addTodo, removeTodo } from "@/redux/cartSlice";
 import { useState } from "react";
 
-export const AddCart: React.FC<any>= ({quantity, name, price}) =>{
+export const AddCart: React.FC<any>= ({quantity, name, price, image}) =>{
   const [add, setAdd]= useState<boolean>(false);
   const dispatch= useAppDispatch();
 
   const toggleButton= () =>{
     if(add=== false){
-      dispatch(addTodo({name, price}));
+      dispatch(addTodo({name, price, image, quantity}));
     }else {
       dispatch(removeTodo(name));
     }

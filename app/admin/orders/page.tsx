@@ -2,18 +2,22 @@
 
 import { useState } from 'react';
 import { format } from "date-fns-jalali";
-import { useQuery } from "@tanstack/react-query";
-import { fetchOrderById, fetchOrderList } from "@/apis/orders.api";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchOrderById, fetchOrderList, updateOrder } from "@/apis/orders.api";
 import { fetchUserList } from "@/apis/users.api";
 import { IOrder } from "@/types/orders";
 import { IUser } from "@/types/users";
 import { formatPrice } from "@/utils/global";
 import useAuth from '@/hooks/auth';
+import { IoCloseSharp } from "react-icons/io5";
 
 export default function Orders() {
     useAuth();
     const [filter, setFilter]= useState<'all' | 'delivered' | 'notDelivered'>('all');
     const [page, setPage]= useState<number>(1);
+    const [selectedOrder, setSelectedOrder] = useState<IOrder | null>(null);
+    const [open, setOpen] = useState<boolean>(false);
+    const queryClient = useQueryClient();
 
     const orders= useQuery({
         queryKey: ["orders", page],
@@ -37,6 +41,21 @@ export default function Orders() {
         if(page> 1){
             setPage(page- 1)
         }
+    }
+
+    const openModal= async (id: string) =>{
+        const order= await fetchOrderById(id);
+        setSelectedOrder(order.data?.order);
+        setOpen(true);
+    }
+    const closeModal= () =>{
+        setOpen(false);
+        setSelectedOrder(null);
+    }
+    const delivered= async (id: string) =>{
+        await updateOrder(id);
+        queryClient.invalidateQueries();
+        closeModal();
     }
     
     return (
@@ -77,19 +96,40 @@ export default function Orders() {
                             if(filter=== 'delivered') return order.deliveryStatus=== true;
                             if(filter=== 'notDelivered') return order.deliveryStatus=== false;
                             return true;
-                        }).map((orders: IOrder, index: number) =>(
+                        }).map((order: IOrder, index: number) =>(
                             <tr key={index} className="border-b border-gray-200">
-                                <td className="px-6 py-4 bg-gray-50">{getUserById(orders.user)}</td>
-                                <td className="px-6 py-4">{formatPrice(orders.totalPrice)}</td>
-                                <td className="px-6 py-4 bg-gray-50">{format(orders.createdAt, "yyyy/MM/dd")}</td>
+                                <td className="px-6 py-4 bg-gray-50">{getUserById(order.user)}</td>
+                                <td className="px-6 py-4">{formatPrice(order.totalPrice)}</td>
+                                <td className="px-6 py-4 bg-gray-50">{format(order.createdAt, "yyyy/MM/dd")}</td>
                                 <td className="px-6 py-4 text-blue-500 hover:text-blue-700">
-                                    <button>بررسی سفارش ها</button>
+                                    <button onClick={() => openModal(order._id)}>بررسی سفارش</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+            {open && selectedOrder && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-5 rounded shadow-lg space-y-2">
+                        <span className='flex justify-between items-center mb-4'>
+                            <h2 className="text-xl font-semibold">جزئیات سفارش</h2>
+                            <button className='bg-red-500 hover:bg-red-700 flex justify-center items-center size-7 text-white rounded' onClick={closeModal}><IoCloseSharp/></button>
+                        </span>
+                        <p>نام مشتری: {selectedOrder.user.firstname} {selectedOrder.user.lastname}</p>
+                        <p>آدرس: {selectedOrder.user.address}</p>
+                        <p>تلفن: {selectedOrder.user.phoneNumber}</p>
+                        <p>مجموع مبلغ: {formatPrice(selectedOrder.totalPrice)} تومان</p>
+                        <p>زمان ثبت سفارش: {format(selectedOrder.createdAt, "yyyy/MM/dd")}</p>
+                        {selectedOrder.deliveryStatus=== true && (
+                            <p>زمان ارسال سفارش: {format(selectedOrder.deliveryDate, "yyyy/MM/dd")}</p>
+                        )}
+                        {selectedOrder.deliveryStatus=== false && (
+                            <button onClick={() => delivered(selectedOrder._id)} className='bg-blue-500 text-white py-1 rounded hover:bg-blue-700 w-full'>تحویل شد</button>
+                        )}
+                    </div>
+                </div>
+            )}
         </section>
     )
 }
