@@ -7,15 +7,17 @@ import { formatPrice } from "@/utils/global";
 import { FaTrashCan } from "react-icons/fa6";
 import { ITodo } from "@/types/todo";
 import Cookies from "js-cookie";
-import { removeFromCartApi, updateCartApi } from "@/redux/thunks";
+import { mergeGuestCartWithUserCart, removeFromCartApi, updateCartApi } from "@/redux/thunks";
 import { getGuestCart, saveGuestCart } from "@/redux/guestSlice";
 import { setGuestCart } from "@/redux/cartSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { RootState } from "@/redux/store";
+import { useEffect } from "react";
 
 export default function Cart() {
-  const list= JSON.parse(`${localStorage.getItem("cart")}`)
   const dispatch= useAppDispatch();
+  const { list, loading, error } = useSelector((state: RootState) => state.cart);
   const totalPrice= list.reduce((el: number, product: ITodo) => el + (product.price * product.quantity), 0);
   const totalQuantity= list.reduce((el: number, product: ITodo) => el + product.quantity, 0);
   const userId = Cookies.get("userId");
@@ -78,6 +80,15 @@ export default function Cart() {
       router.push("/login");
     }
   }
+
+  useEffect(() => {
+    if(userId){
+      dispatch(mergeGuestCartWithUserCart({ userId }))
+    }else {
+      const guestCart = getGuestCart();
+      dispatch(setGuestCart(guestCart));
+    }
+  }, [userId]); 
 
   return (
     <section className={`${list.length> 0 ? "" : "flex justify-center"}`}>

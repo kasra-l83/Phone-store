@@ -34,6 +34,19 @@
           "image": "products-675969f5d797a9199fdbaa5b-1734205074707-1.jpeg"
         }
       ]
+    },
+    {
+      "userId": "676c8908cdacda11d1192ac4",
+      "products": [
+        {
+          "id": "675bed6961a864fbe52cbf62",
+          "name": "آیفون ایکس",
+          "price": 23000000,
+          "quantity": 3,
+          "image": "products-675bed6961a864fbe52cbf62-1734077801752-1.jpeg",
+          "stock": 23
+        }
+      ]
     }
   ]
 }

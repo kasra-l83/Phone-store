@@ -125,9 +125,14 @@ export const paymentSchema = z.object({
   lastname: z.string().trim().min(5, "نام خانوادگی باید حداقل 5 کاراکتر باشد"),
   phoneNumber: z
     .string()
-    .regex(
-      /^09\d{9}$/,
-      "شماره موبایل باید با صفر و نه شروع شود و نباید بیشتر از 11 رقم باشد"
+    .refine(
+      (value) => /[1-9]/g.test(value), "تلفن تماس باید فقط شامل اعداد باشند"
+    )
+    .refine(
+      (value) => /^09/.test(value), "تلفن تماس باید با 09 شروع شوند"
+    )
+    .refine(
+      (value) => /^09\d{9}$/.test(value), "شماره تماس باید 11 رقم باشد"
     ),
   address: z.string().trim().min(8, "آدرس باید حداقل 8 کاراکتر باشد"),
   deliveryDate: z

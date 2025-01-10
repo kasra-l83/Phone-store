@@ -13,6 +13,7 @@ import { IUserPayment } from "@/types/payment";
 import { fetchUserById } from "@/apis/users.api";
 import { notFound } from "next/navigation";
 import { paymentSchema } from "@/utils/validation";
+import { Input } from "@/components/Input";
 
 
 export default function Checkout() {
@@ -25,11 +26,9 @@ export default function Checkout() {
   const user = useQuery({
     queryKey: ["user", id],
     queryFn: () => fetchUserById(id)
-  });
-  console.log(user.data);
+  })
 
   const {
-    register,
     control,
     handleSubmit,
     reset,
@@ -38,94 +37,48 @@ export default function Checkout() {
     resolver: zodResolver(paymentSchema),
     mode: "all",
     defaultValues: {
-      firstname: "",
-      lastname: "",
-      phoneNumber: "",
+      firstname: `${user.data?.firstname}`,
+      lastname: `${user.data?.lastname}`,
+      phoneNumber: `${user.data?.phoneNumber}`,
       address: "",
-      deliveryDate: "",
-    },
-  });
-
-  // Update form values when data is fetched
-  React.useEffect(() => {
-    if (user?.data?.user) {
-      const users = user.data.user;
-      reset({
-        firstname: users.firstname || "",
-        lastname: users.lastname || "",
-        phoneNumber: users.phoneNumber || "",
-        address: users.address || "",
-        deliveryDate: "",
-      });
+      deliveryDate: ""
     }
-  }, [user, reset]);
+  })
+
+  React.useEffect(() => {
+    if (user?.data) {
+      reset({
+        firstname: user.data.firstname,
+        lastname: user.data.lastname,
+        phoneNumber: user.data.phoneNumber
+      })
+    }
+  }, [user.data, reset]);
 
   const submitHandler = (formData: IUserPayment) => {
     console.log("Form Submitted:", formData);
-    Cookies.set("deliveryDate",formData.deliveryDate)
-    router.push("/payment");
+    router.push("/pay");
   }
 
   return (
-    <div className="bg-checkout-pattern flex justify-center py-6 w-full rounded-lg">
+    <div className="flex justify-center py-6 w-full rounded-lg">
       <form
         onSubmit={handleSubmit(submitHandler)}
-        className="bg-zinc-300 px-8 py-2 rounded-xl shadow-md w-full max-w-md opacity-90"
+        className="px-8 py-2 rounded-xl w-full max-w-md border border-blue-500"
       >
         <div className="space-y-3">
-          <div>
-            <label htmlFor="firstname" className="block text-gray-700 font-medium px-2">
-              نام
-            </label>
-            <input
-              id="firstname"
-              {...register("firstname")}
-              className="w-full px-4 py-2 border rounded-md shadow-lg"
-            />
-            {errors.firstname && (
-              <p className="text-red-500 text-sm px-2">{errors.firstname.message}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="lastname" className="block text-gray-700 font-medium px-2">
-              نام خانوادگی
-            </label>
-            <input
-              id="lastname"
-              {...register("lastname")}
-              className="w-full px-4 py-2 border rounded-md shadow-lg"
-            />
-            {errors.lastname && (
-              <p className="text-red-500 text-sm px-2">{errors.lastname.message}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="phoneNumber" className="block text-gray-700 font-medium px-2">
-              موبایل
-            </label>
-            <input
-              id="phoneNumber"
-              {...register("phoneNumber")}
-              className="w-full px-4 py-2 border rounded-md shadow-lg"
-            />
-            {errors.phoneNumber && (
-              <p className="text-red-500 text-sm px-2">{errors.phoneNumber.message}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="address" className="block text-gray-700 font-medium px-2">
-              آدرس
-            </label>
-            <textarea
-              id="address"
-              {...register("address")}
-              rows={3}
-              className="w-full px-4 py-2 border rounded-md shadow-lg"
-            />
-            {errors.address && (
-              <p className="text-red-500 text-sm px-2">{errors.address.message}</p>
-            )}
-          </div>
+          <Controller name='firstname' control={control} render={({field, fieldState: {error}}) =>(
+            <Input {...field} disabled={true} error={error?.message} label='نام'/>
+          )}/>
+          <Controller name='lastname' control={control} render={({field, fieldState: {error}}) =>(
+            <Input {...field} disabled={true} error={error?.message} label='نام خانوادگی'/>
+          )}/>
+          <Controller name='phoneNumber' control={control} render={({field, fieldState: {error}}) =>(
+            <Input {...field} disabled={true} error={error?.message} label='شماره موبایل'/>
+          )}/>
+          <Controller name='address' control={control} render={({field, fieldState: {error}}) =>(
+            <Input {...field} error={error?.message} label='شهر'/>
+          )}/>
           <div>
             <label htmlFor="deliveryDate" className="block text-gray-700 font-medium px-2">
               تاریخ تحویل
@@ -135,7 +88,7 @@ export default function Checkout() {
               name="deliveryDate"
               render={({ field: { onChange, value } }) => (
                 <DatePicker
-                inputClass="p-2 rounded-lg shadow-lg"
+                inputClass="p-2 border rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   value={value ? new DateObject(value) : ""}
                   onChange={(user) => {
                     const isoDate = user ? user.toDate().toISOString() : "";
@@ -145,6 +98,7 @@ export default function Checkout() {
                   locale={persian_fa}
                   format="YYYY/MM/DD"
                   calendarPosition="bottom-right"
+                  minDate={new Date()}
                 />
               )}
             />
@@ -153,8 +107,8 @@ export default function Checkout() {
             )}
           </div>
           <div className="py-4">
-            <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded">
-              ادامه
+            <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white py-2 rounded">
+              پرداخت
             </button>
           </div>
         </div>
