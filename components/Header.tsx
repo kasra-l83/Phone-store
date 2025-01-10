@@ -13,6 +13,7 @@ import { FaPhoneFlip } from "react-icons/fa6";
 import { useAppSelector } from "../redux/hook";
 import { ITodo } from "@/types/todo";
 import { Auth } from "@/providers/auth.provider";
+import Cookies from "js-cookie";
 
 export default function Header() {
     const todoList= useAppSelector((state) => state.cart);
@@ -35,6 +36,7 @@ export default function Header() {
     }
     const Logout= () =>{
         localStorage.removeItem("token");
+        Cookies.remove("userId")
         logout();
     }
     const openHandler= () => setOpen(true);

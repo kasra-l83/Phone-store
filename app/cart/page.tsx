@@ -2,26 +2,81 @@
 
 import { useAppDispatch } from "@/redux/hook";
 import { useSelector } from "react-redux";
-import { decreaseQuantity, increaseQuantity, removeTodo } from "@/redux/cartSlice";
 import Image from 'next/image'
 import { formatPrice } from "@/utils/global";
 import { FaTrashCan } from "react-icons/fa6";
 import { ITodo } from "@/types/todo";
+import Cookies from "js-cookie";
+import { removeFromCartApi, updateCartApi } from "@/redux/thunks";
+import { getGuestCart, saveGuestCart } from "@/redux/guestSlice";
+import { setGuestCart } from "@/redux/cartSlice";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Cart() {
-  const list= useSelector((state) =>state.cart.list);
+  const list= JSON.parse(`${localStorage.getItem("cart")}`)
   const dispatch= useAppDispatch();
   const totalPrice= list.reduce((el: number, product: ITodo) => el + (product.price * product.quantity), 0);
   const totalQuantity= list.reduce((el: number, product: ITodo) => el + product.quantity, 0);
+  const userId = Cookies.get("userId");
+  const token= localStorage.getItem("token");
+  const router = useRouter();
 
-  const deleteHandler= (name) =>{
-    dispatch(removeTodo(name))
+  const deleteHandler= (itemId: string) =>{
+    if (userId) {
+      dispatch(removeFromCartApi({ userId: userId, productId: itemId }));
+    } else {
+      const guestCart = getGuestCart();
+      const updatedCart = guestCart.filter((product:ITodo) => product.id !== itemId);
+      saveGuestCart(updatedCart);
+      dispatch(setGuestCart(updatedCart));
+    }
   }
-  const increaseHandler = (name) => {
-    dispatch(increaseQuantity(name));
+  const increaseHandler = (itemId: string, quantity: number, stock: number) => {
+    if (quantity < stock) {
+      if (userId) {
+        dispatch(
+          updateCartApi({
+            userId: userId,
+            productId: itemId,
+            quantity: quantity + 1,
+          })
+        )
+      } else {
+        const guestCart = getGuestCart();
+        const item = guestCart.find((product:ITodo) => product.id === itemId);
+        item.quantity += 1;
+        saveGuestCart(guestCart);
+        dispatch(setGuestCart(guestCart));
+      }
+    }
   }
-  const decreaseHandler = (name) => {
-    dispatch(decreaseQuantity(name));
+  const decreaseHandler = (itemId: string, quantity: number) => {
+    if (quantity > 1) {
+      if (userId) {
+        dispatch(
+          updateCartApi({
+            userId: userId,
+            productId: itemId,
+            quantity: quantity - 1,
+          })
+        )
+      } else {
+        const guestCart = getGuestCart();
+        const item = guestCart.find((product:ITodo) => product.id === itemId);
+        item.quantity -= 1;
+        saveGuestCart(guestCart);
+        dispatch(setGuestCart(guestCart));
+      }
+    }
+  }
+  const click= () =>{
+    if ( token) {
+      router.push("/checkout");
+    } else {
+      toast.error("برای خرید نهایی وارد حساب شوید");
+      router.push("/login");
+    }
   }
 
   return (
@@ -45,7 +100,7 @@ export default function Cart() {
                   <th className="px-6 py-3">تعداد</th>
                 </tr>
               </thead>
-              {list.map((product, index: number) =>(
+              {list.map((product: ITodo, index: number) =>(
                 <tbody key={index}>
                   <tr className={`${index % 2 !== 0 ? "bg-gray-200" : ""}`}>
                     <th><Image src={`http://localhost:8000/images/products/images/${product.image}`} alt={product.name} width={160} height={160}/></th>
@@ -53,10 +108,10 @@ export default function Cart() {
                     <th className="px-6 py-4 text-gray-900">{formatPrice(product.price)} تومان</th>
                     <th className="px-6 py-4 text-gray-900">
                       <span className="text-blue-500 border rounded-lg py-2 px-1">
-                        <button disabled={product.all<= product.quantity} onClick={() => increaseHandler(product.name)} className="hover:text-blue-700 pl-5 text-2xl disabled:text-gray-200">+</button>
+                        <button disabled={product.stock=== product.quantity} onClick={() => increaseHandler(product.id, 1, product.quantity)} className="hover:text-blue-700 pl-5 text-2xl disabled:text-gray-200">+</button>
                         {product.quantity}
-                        <button onClick={() => decreaseHandler(product.name)} className={`hover:text-blue-700 pr-5 text-2xl ${product.quantity> 1 ? "" : "hidden"}`}>-</button>
-                        <button onClick={() => deleteHandler(product.name)} className={`text-red-500 hover:text-red-700 pr-5 ${product.quantity> 1 ? "hidden" : ""}`}><FaTrashCan/></button>
+                        <button onClick={() => decreaseHandler(product.id, product.stock)} className={`hover:text-blue-700 pr-5 text-2xl ${product.quantity> 1 ? "" : "hidden"}`}>-</button>
+                        <button onClick={() => deleteHandler(product.id)} className={`text-red-500 hover:text-red-700 pr-5 ${product.quantity> 1 ? "hidden" : ""}`}><FaTrashCan/></button>
                       </span>
                     </th>
                   </tr>
@@ -69,7 +124,7 @@ export default function Cart() {
               <p>تعداد کل محصولات: {totalQuantity}</p>
               <p>مجموع قیمت: {formatPrice(totalPrice)} تومان</p>
             </div>
-            <button className="py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-700">نهایی کردن سبد خرید</button>
+              <button onClick={click} className="p-2 bg-blue-500 text-white rounded hover:bg-blue-700">نهایی کردن سبد خرید</button>
           </span>
         </section>
       )}

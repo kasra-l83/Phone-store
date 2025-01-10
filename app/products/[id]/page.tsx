@@ -9,12 +9,14 @@ import { PiCoinVerticalFill } from "react-icons/pi";
 import Link from "next/link";
 import  ColorSelector  from "@/components/color";
 import { AddCart } from "@/components/Add";
+import Cookies from "js-cookie";
 
 const ProductPage: React.FC<IPageParams<{ id: string }>>= async ({ params }) =>{
   const id= (await params).id;
   const product= await fetchProductById(id)
   const subCategory= await fetchSubCategoryById(product.subcategory._id);
   if(!id || !product) return notFound();
+  const userId = Cookies.get("userId")
 
   return (
     <section className="lg:grid lg:grid-cols-4 space-y-4">
@@ -58,7 +60,7 @@ const ProductPage: React.FC<IPageParams<{ id: string }>>= async ({ params }) =>{
       </div>
       <div className="flex flex-col justify-around border bg-gray-100 px-4 rounded-lg space-y-2 lg:space-y-0">
         <h4 className="text-lg text-left font-semibold">{product.quantity > 0 ? `${formatPrice(product.price)} تومان` : "ناموجود"}</h4>
-        <AddCart quantity={product.quantity} name={product.name} price={product.price} image={product.images[0]}/>
+        <AddCart quantity={product.quantity} name={product.name} price={product.price} image={product.images[0]} id={product._id}/>
         <h5 className="flex gap-x-3 items-center">
           <SiAdguard className="text-xl text-blue-500"/>
           گارانتی 18 ماهه

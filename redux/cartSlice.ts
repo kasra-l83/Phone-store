@@ -1,42 +1,92 @@
 import { ITodo } from '@/types/todo';
 import { createSlice} from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import {
+  fetchCart,
+  addToCartApi,
+  updateCartApi,
+  removeFromCartApi,
+  clearCartApi,
+} from "./thunks";
 
 export const initialState= {
-  list: JSON.parse(`${localStorage.getItem("cart")}`) || []
+  list: [],
+  loading: false,
+  error: null
 }
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction<ITodo>) =>{
-      state.list.push({ name: action.payload.name, price: action.payload.price, image: action.payload.image, all: action.payload.quantity, quantity: 1});
-      localStorage.setItem("cart", JSON.stringify(state.list));
+    setGuestCart: (state, action: PayloadAction<ITodo[]>) => {
+      state.list = action.payload;
     },
-    removeTodo: (state, action: PayloadAction) =>{
-      state.list= state.list.filter((el: {name: void}) => el.name !== action.payload);
-      localStorage.setItem("cart", JSON.stringify(state.list));
-    },
-    clearTodo: (state) =>{
-      state.list= []
-      localStorage.removeItem("cart")
-    },
-    increaseQuantity: (state, action: PayloadAction<string>) => {
-      const item = state.list.find((el: {name: string}) => el.name === action.payload);
-      if (item) {
-        item.quantity += 1;
-        localStorage.setItem("cart", JSON.stringify(state.list));
-      }
-    },
-    decreaseQuantity: (state, action: PayloadAction<string>) => {
-      const item = state.list.find((el: {name: string}) => el.name === action.payload);
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
-        localStorage.setItem("cart", JSON.stringify(state.list));
-      }
+    clearCart: (state) => {
+      state.list = [];
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchCart.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchCart.fulfilled, (state, action) => {
+      state.list = Array.isArray(action.payload) ? [...action.payload] : [];
+      state.loading = false;
+    });
+
+    builder.addCase(fetchCart.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "خطا در دریافت سبد خرید";
+    });
+
+    builder.addCase(addToCartApi.fulfilled, (state, action) => {
+      const newItem = action.meta.arg.item as ITodo;
+      const existingItem = state.list.find((item) => item.id === newItem.id);
+      if (existingItem) {
+        existingItem.quantity += newItem.quantity;
+      } else {
+        state.list.push(newItem);
+      }
+    });
+    builder.addCase(addToCartApi.rejected, (state, action) => {
+      state.error = (action.payload as string) || "خطا در افزودن به سبد خرید";
+    });
+
+    builder.addCase(updateCartApi.fulfilled, (state, action) => {
+      const { productId, quantity } = action.meta.arg;
+      const existingItem = state.list.find((item) => item.id === productId);
+      if (existingItem) {
+        existingItem.quantity = quantity;
+      }
+    });
+    builder.addCase(updateCartApi.rejected, (state, action) => {
+      state.error = (action.payload as string) || "خطا در بروزرسانی محصول";
+    });
+
+    builder.addCase(removeFromCartApi.fulfilled, (state, action) => {
+      const { productId } = action.meta.arg;
+      state.list = state.list.filter((item) => item.id !== productId);
+    });
+    builder.addCase(removeFromCartApi.rejected, (state, action) => {
+      state.error =
+        (action.payload as string) || "خطا در حذف محصول از سبد خرید";
+    });
+    // حذف کامل سبد خرید
+    builder.addCase(clearCartApi.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(clearCartApi.fulfilled, (state) => {
+      state.list = []; // خالی کردن سبد خرید در Redux
+      state.loading = false;
+    });
+    builder.addCase(clearCartApi.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "خطا در پاک کردن سبد خرید";
+    });
   }
 })
 export const todoReducer= cartSlice.reducer;
-export const {addTodo, removeTodo, clearTodo, increaseQuantity, decreaseQuantity}= cartSlice.actions;
+export const {setGuestCart, clearCart}= cartSlice.actions;

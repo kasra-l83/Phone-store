@@ -1,18 +1,54 @@
 "use client"
 
 import { useAppDispatch } from "../redux/hook";
-import { addTodo, removeTodo } from "@/redux/cartSlice";
+import { addToCartApi, removeFromCartApi } from "@/redux/thunks";
 import { useState } from "react";
+import Cookies from "js-cookie";
+import { getGuestCart, saveGuestCart } from "@/redux/guestSlice";
+import { ITodo } from "@/types/todo";
+import { setGuestCart } from "@/redux/cartSlice";
 
-export const AddCart: React.FC<any>= ({quantity, name, price, image}) =>{
+export const AddCart: React.FC<any>= ({quantity, name, price, image, id}) =>{
   const [add, setAdd]= useState<boolean>(false);
   const dispatch= useAppDispatch();
+  const userId = Cookies.get("userId");
+  console.log(userId);
 
   const toggleButton= () =>{
     if(add=== false){
-      dispatch(addTodo({name, price, image, quantity}));
+      if(userId){
+        dispatch(addToCartApi({
+          userId,
+          item: {
+            id: id,
+            name: name,
+            price: price,
+            quantity: 1,
+            image: image,
+            stock: quantity
+          }
+        }))
+      }else {
+        const guestCart = getGuestCart();
+        guestCart.push({
+          id: id,
+          name: name,
+          price: price,
+          quantity: 1,
+          image: image,
+          stock: quantity
+        })
+        saveGuestCart(guestCart);
+      }
     }else {
-      dispatch(removeTodo(name));
+      if(userId){
+        dispatch(removeFromCartApi({userId: userId, productId: id}));
+      }else {
+        const guestCart = getGuestCart();
+        const updatedCart = guestCart.filter((product:ITodo) => product.id !== id);
+        saveGuestCart(updatedCart);
+        dispatch(setGuestCart(updatedCart))
+      }
     }
     setAdd(!add);
   }

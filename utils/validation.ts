@@ -120,3 +120,17 @@ export const signupSchema = z.object({
   message: 'رمز عبور تطابق ندارد',
   path: ['confirmPassword']
 })
+export const paymentSchema = z.object({
+  firstname: z.string().trim().min(3, "نام حداقل باید 3 کاراکتر باشد"),
+  lastname: z.string().trim().min(5, "نام خانوادگی باید حداقل 5 کاراکتر باشد"),
+  phoneNumber: z
+    .string()
+    .regex(
+      /^09\d{9}$/,
+      "شماره موبایل باید با صفر و نه شروع شود و نباید بیشتر از 11 رقم باشد"
+    ),
+  address: z.string().trim().min(8, "آدرس باید حداقل 8 کاراکتر باشد"),
+  deliveryDate: z
+    .string()
+  }
+)
