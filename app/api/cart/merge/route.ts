@@ -29,11 +29,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const data = readCartFile(); // خواندن فایل JSON
+    const data = readCartFile();
     let userCart = data.carts.find((cart: any) => cart.userId === userId);
 
     if (!userCart) {
-      // اگر کاربر سبد خرید ندارد، یک سبد جدید ایجاد کن
       userCart = { userId, products: [] };
       data.carts.push(userCart);
     }
@@ -48,19 +47,16 @@ export async function POST(req: Request) {
     products.forEach((product: any) => {
       if (productMap.has(product.id)) {
         const existingProduct = productMap.get(product.id);
-        existingProduct.quantity = Math.max(existingProduct.quantity, product.quantity); // جلوگیری از افزایش اشتباه
+        existingProduct.quantity = Math.max(existingProduct.quantity, product.quantity);
       } else {
         productMap.set(product.id, { ...product });
       }
     });
     console.log("Final product map after merge:", Array.from(productMap.values()));
-
-
-    // تبدیل نقشه به آرایه
     userCart.products = Array.from(productMap.values());
     console.log("User Cart after merging:", userCart.products);
 
-    writeCartFile(data); // ذخیره تغییرات
+    writeCartFile(data);
     return NextResponse.json({ message: "Cart merged successfully" });
   } catch (error: any) {
     console.error("Error handling POST /api/cart/merge:", error.message);

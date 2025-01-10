@@ -17,7 +17,7 @@ import { useEffect } from "react";
 
 export default function Cart() {
   const dispatch= useAppDispatch();
-  const { list, loading, error } = useSelector((state: RootState) => state.cart);
+  const { list } = useSelector((state: RootState) => state.cart);
   const totalPrice= list.reduce((el: number, product: ITodo) => el + (product.price * product.quantity), 0);
   const totalQuantity= list.reduce((el: number, product: ITodo) => el + product.quantity, 0);
   const userId = Cookies.get("userId");
@@ -119,9 +119,9 @@ export default function Cart() {
                     <th className="px-6 py-4 text-gray-900">{formatPrice(product.price)} تومان</th>
                     <th className="px-6 py-4 text-gray-900">
                       <span className="text-blue-500 border rounded-lg py-2 px-1">
-                        <button disabled={product.stock=== product.quantity} onClick={() => increaseHandler(product.id, 1, product.quantity)} className="hover:text-blue-700 pl-5 text-2xl disabled:text-gray-200">+</button>
+                        <button disabled={product.stock=== product.quantity} onClick={() => increaseHandler(product.id, product.quantity, product.stock)} className="hover:text-blue-700 pl-5 text-2xl disabled:text-gray-200">+</button>
                         {product.quantity}
-                        <button onClick={() => decreaseHandler(product.id, product.stock)} className={`hover:text-blue-700 pr-5 text-2xl ${product.quantity> 1 ? "" : "hidden"}`}>-</button>
+                        <button onClick={() => decreaseHandler(product.id, product.quantity)} className={`hover:text-blue-700 pr-5 text-2xl ${product.quantity> 1 ? "" : "hidden"}`}>-</button>
                         <button onClick={() => deleteHandler(product.id)} className={`text-red-500 hover:text-red-700 pr-5 ${product.quantity> 1 ? "hidden" : ""}`}><FaTrashCan/></button>
                       </span>
                     </th>

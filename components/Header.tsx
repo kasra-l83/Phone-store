@@ -20,6 +20,7 @@ export default function Header() {
     const [open, setOpen]= useState<boolean>(false);
     const [open1, setOpen1]= useState<boolean>(false);
     const { push }= useRouter();
+    const router= useRouter();
 
     const session= localStorage.getItem("token");
     const {user, logout}= Auth();
@@ -28,11 +29,8 @@ export default function Header() {
         push("/login")
     }
     const click1= () =>{
-        setOpen1(false);
-        push("/cart");
-    }
-    const click2= () =>{
         setOpen1(true)
+        router.push("/cart")
     }
     const Logout= () =>{
         localStorage.removeItem("token");
@@ -67,7 +65,7 @@ export default function Header() {
                 </span>
                 <span className={`flex gap-x-5 ${user=== "admin" ? "hidden" : ""}`}>
                     <button onClick={click} className={`text-blue-500 w-40 py-[10px] bg-gray-100 rounded-lg hover:bg-gray-300 ${session? "hidden" : "hidden sm:block"}`}>ورود یا ثبت نام</button>
-                    <button disabled={todoList.list.length<= 0} onClick={click2} className="text-xl text-blue-500 p-[10px] bg-gray-100 rounded-lg relative">
+                    <button onClick={click1} className="text-xl text-blue-500 p-[10px] bg-gray-100 rounded-lg relative">
                         <IoCartOutline/>
                         <div className={`bg-blue-500 text-white absolute right-[-10px] top-[-10px] rounded-full size-6 justify-center items-center ${todoList.list.length> 0 ? "flex" : "hidden"}`}>{todoList.list.length}</div>
                     </button>

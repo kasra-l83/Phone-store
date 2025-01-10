@@ -92,7 +92,7 @@ export const clearCartApi = createAsyncThunk(
   }
 );
 
-import { RootState } from "./store"; // فرض کنید RootState در فایل store تعریف شده است
+import { RootState } from "./store";
 import { ITodo } from "@/types/todo";
 
 export const mergeGuestCartWithUserCart = createAsyncThunk(
@@ -105,13 +105,13 @@ export const mergeGuestCartWithUserCart = createAsyncThunk(
       const BASE_URL = "http://localhost:3000";
       const guestCart = getGuestCart();
       const state = getState() as RootState;
-      const userCart = state.cart.list; // دریافت سبد کاربر
+      const userCart = state.cart.list;
 
       const mergedCart: ITodo[] = [];
 
       const cartMap = new Map<string, ITodo>();
 
-      userCart.forEach((item) => {
+      userCart.forEach((item: any) => {
         cartMap.set(item.id, { ...item });
       })
 

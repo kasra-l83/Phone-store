@@ -2,11 +2,17 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
+import Cookies from "js-cookie";
+import { useAppDispatch } from '@/redux/hook';
+import { clearCartApi } from '@/redux/thunks';
 
 export default function Pay() {
   const router = useRouter();
+  const userId = Cookies.get("userId") as string;
+  const dispatch= useAppDispatch();
 
   const handleSuccess = () => {
+    dispatch(clearCartApi(userId))
     router.push("/resault?status=success")
   }
 
