@@ -36,6 +36,7 @@ export const LoginForm: React.FC= () =>{
         localStorage.setItem("token", log.data?.token.accessToken);
         reset();
         toast.success("ورود موفق");
+        localStorage.removeItem("cart")
         if(log.data?.data.user.role=== "ADMIN"){
             login("admin");
             setTimeout(() =>{

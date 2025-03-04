@@ -37,24 +37,7 @@
     },
     {
       "userId": "676c8908cdacda11d1192ac4",
-      "products": [
-        {
-          "id": "675d9e2171829b71b9376200",
-          "name": "آیفون 13 پرو",
-          "price": 20000000,
-          "quantity": 2,
-          "image": "products-675d9e2171829b71b9376200-1734188577398-1.jpeg",
-          "stock": 23
-        },
-        {
-          "id": "67596c80d797a9199fdbaa6f",
-          "name": "پوکو ایکس 6",
-          "price": 16000000,
-          "quantity": 1,
-          "image": "products-67596c80d797a9199fdbaa6f-1733913728406-1.jpeg",
-          "stock": 7
-        }
-      ]
+      "products": []
     }
   ]
 }
